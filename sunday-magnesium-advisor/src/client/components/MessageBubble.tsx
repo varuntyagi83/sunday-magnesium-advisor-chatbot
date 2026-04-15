@@ -4,21 +4,7 @@ import { ProductCarousel } from "./ProductCarousel.js";
 import { SuggestionBubbles } from "./SuggestionBubbles.js";
 import lotusImg from "../assets/lotus.png";
 
-const MB_UI = {
-  de: {
-    delivered: "Zugestellt",
-    learnMore: "Mehr über diese Form erfahren",
-    hide: "Ausblenden",
-    metrics: "Performance-Metriken",
-  },
-  en: {
-    delivered: "Delivered",
-    learnMore: "Learn more about this form",
-    hide: "Hide",
-    metrics: "Performance Metrics",
-  },
-} as const;
-type MBLocale = keyof typeof MB_UI;
+import { i18n, type Locale as MBLocale } from "../i18n.js";
 
 interface Props {
   message: Message;
@@ -45,7 +31,7 @@ function renderContent(text: string) {
 }
 
 export function MessageBubble({ message, isLast, locale = "de", onSuggestionClick, onProductClick }: Props) {
-  const t = MB_UI[locale];
+  const t = i18n[locale];
   const isUser = message.role === "user";
   const [showLearnMore, setShowLearnMore] = useState(false);
   const [showMetrics, setShowMetrics] = useState(false);

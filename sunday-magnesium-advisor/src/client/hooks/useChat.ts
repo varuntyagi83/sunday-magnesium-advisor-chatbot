@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from "react";
+import { i18n, type Locale } from "../i18n.js";
 
 export interface Message {
   id: string;
@@ -38,16 +39,17 @@ export interface PipelineStep {
   durationMs?: number;
 }
 
-const AGENT_ORDER = [
-  { agentId: "intent_classifier", agentName: "Intent" },
-  { agentId: "health_profiler",   agentName: "Profile" },
-  { agentId: "product_retriever", agentName: "Products" },
-  { agentId: "embedding_matcher", agentName: "Match" },
-  { agentId: "contraindication_checker", agentName: "Safety" },
-  { agentId: "dosage_advisor",    agentName: "Dosage" },
-  { agentId: "response_composer", agentName: "Compose" },
-  { agentId: "followup_generator", agentName: "Suggest" },
-];
+const AGENT_IDS = [
+  "intent_classifier",
+  "health_profiler",
+  "product_retriever",
+  "embedding_matcher",
+  "contraindication_checker",
+  "dosage_advisor",
+  "response_composer",
+  "followup_generator",
+] as const;
+type AgentId = typeof AGENT_IDS[number];
 
 function makeId() {
   return Math.random().toString(36).slice(2);
@@ -60,11 +62,19 @@ export function useChat(apiUrl = "", locale = "de") {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
+  // Build agent order with translated names from central i18n
+  const safeLocale = (locale === "de" || locale === "en" ? locale : "de") as Locale;
+  const agentNames = i18n[safeLocale].agentNames;
+  const agentOrder = AGENT_IDS.map((agentId) => ({
+    agentId,
+    agentName: agentNames[agentId as AgentId],
+  }));
+
   const sendMessage = useCallback(async (text: string) => {
     const userMsg: Message = { id: makeId(), role: "user", content: text, timestamp: new Date() };
     setMessages((prev) => [...prev, userMsg]);
     setLoading(true);
-    setPipelineSteps(AGENT_ORDER.map((a) => ({ ...a, status: "pending" })));
+    setPipelineSteps(agentOrder.map((a) => ({ ...a, status: "pending" })));
 
     abortRef.current?.abort();
     const controller = new AbortController();
@@ -173,7 +183,7 @@ export function useChat(apiUrl = "", locale = "de") {
     } finally {
       setLoading(false);
     }
-  }, [messages, sessionId]);
+  }, [messages, sessionId, locale, agentOrder]);
 
   return { messages, loading, pipelineSteps, sendMessage };
 }

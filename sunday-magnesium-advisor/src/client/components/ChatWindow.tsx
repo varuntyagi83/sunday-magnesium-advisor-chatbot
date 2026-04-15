@@ -5,60 +5,7 @@ import { PipelineTracker } from "./PipelineTracker.js";
 import { SuggestionBubbles } from "./SuggestionBubbles.js";
 import { ConsentBanner, useConsent } from "./ConsentBanner.js";
 import lotusImg from "../assets/lotus.png";
-
-type Locale = "de" | "en";
-
-// ── i18n strings ──────────────────────────────────────────────
-const UI = {
-  de: {
-    greeting: "Hallo 👋 Ich bin Ihr Sunday Natural Berater. Ich helfe Ihnen, das beste Magnesium für Sie zu finden! 🌿",
-    tryOne: "Probieren Sie eine dieser Optionen:",
-    suggestions: [
-      "Magnesium gegen Stress und Angst",
-      "Ich brauche Magnesium für besseren Schlaf",
-      "Welches Magnesium hilft am besten bei Muskelentspannung?",
-      "Bestes allgemeines Magnesium-Supplement",
-    ],
-    refinementQ: "Passen diese gut – oder haben Sie besondere Wünsche?",
-    tryForm: "ANDERE FORM AUSPROBIEREN",
-    inputPlaceholder: "Fragen Sie mich nach Magnesium...",
-    refinementPlaceholder: "z.B. hohe Dosis, vegan, nur Pulver...",
-    poweredBy: "⚡ Powered by Sunday Natural",
-    declined: "Sie haben die Datenverarbeitung abgelehnt. Der Berater ist nicht verfügbar.",
-    changeMind: "Meinung ändern",
-    formLabels: { capsule: "Kapsel", tablet: "Tablette", powder: "Pulver", liquid: "Flüssig", gummy: "Gummibärchen" } as Record<string, string>,
-    formMsg: (label: string) => `Ich bevorzuge Magnesium in ${label}form`,
-    menu: {
-      transcript: "Transkript herunterladen",
-      privacy: "Datenschutz",
-      endChat: "Chat beenden",
-    },
-  },
-  en: {
-    greeting: "Hello 👋 I am your Sunday Natural Advisor. I can help you discover the best magnesium for you! 🌿",
-    tryOne: "Try one of these:",
-    suggestions: [
-      "Magnesium for stress and anxiety",
-      "I need magnesium for better sleep",
-      "What magnesium is best for muscle relaxation?",
-      "Best general magnesium supplement",
-    ],
-    refinementQ: "Are these a good fit — or do you have special preferences?",
-    tryForm: "TRY A DIFFERENT FORM",
-    inputPlaceholder: "Ask me about magnesium...",
-    refinementPlaceholder: "e.g. high dose, vegan, powder only...",
-    poweredBy: "⚡ Powered by Sunday Natural",
-    declined: "You have declined data processing. The advisor is unavailable.",
-    changeMind: "Change my mind",
-    formLabels: { capsule: "Capsule", tablet: "Tablet", powder: "Powder", liquid: "Liquid", gummy: "Gummy" } as Record<string, string>,
-    formMsg: (label: string) => `I prefer ${label} form magnesium`,
-    menu: {
-      transcript: "Download transcript",
-      privacy: "Privacy policy",
-      endChat: "End chat",
-    },
-  },
-};
+import { i18n, type Locale } from "../i18n.js";
 
 // key = used for form-matching logic; emoji = display; key also indexes into UI.formLabels
 const FORM_PILLS = [
@@ -99,7 +46,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
   }, [menuOpen]);
   const { state: consentState, accept: acceptConsent, decline: declineConsent } = useConsent();
 
-  const t = UI[locale];
+  const t = i18n[locale];
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });

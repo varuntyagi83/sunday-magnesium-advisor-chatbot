@@ -2,6 +2,7 @@ import { config } from "../config.js";
 import { runGeminiAgent } from "../pipeline/agent-runner.js";
 import { UserIntent, FollowUpOutput, FollowUpOutputSchema } from "../types/pipeline.js";
 import { RecommendedProduct } from "../products/types.js";
+import { getLangInstruction, getFollowupFallback } from "../i18n.js";
 
 const SYSTEM_PROMPT_BASE = `You are the Follow-up Generator for Sunday Natural's magnesium advisor.
 
@@ -18,35 +19,13 @@ Rules:
 Respond ONLY with valid JSON:
 { "suggestions": ["string", "string", "string"] }`;
 
-const LANG_INSTRUCTION: Record<string, string> = {
-  de: "WICHTIG: Schreibe alle Vorschläge auf Deutsch.",
-  en: "IMPORTANT: Write all suggestions in English.",
-};
-
-const FALLBACK: Record<string, FollowUpOutput> = {
-  de: {
-    suggestions: [
-      "Was ist der Unterschied zwischen Glycinat und Citrat",
-      "Wann merke ich erste Ergebnisse",
-      "Kann ich Magnesium mit anderen Supplements nehmen",
-    ],
-  },
-  en: {
-    suggestions: [
-      "What is the difference between glycinate and citrate",
-      "How long until I notice results",
-      "Can I take magnesium with my other supplements",
-    ],
-  },
-};
-
 export async function generateFollowUps(
   message: string,
   intent: UserIntent,
   products: RecommendedProduct[],
   locale = "de"
 ): Promise<string[]> {
-  const systemPrompt = `${SYSTEM_PROMPT_BASE}\n\n${LANG_INSTRUCTION[locale] ?? LANG_INSTRUCTION.de}`;
+  const systemPrompt = `${SYSTEM_PROMPT_BASE}\n\n${getLangInstruction(locale)}`;
   const topProduct = products[0];
   const userMessage = `User asked: "${message}"
 Intent: ${intent.primary_intent}
@@ -68,6 +47,6 @@ Generate 3 relevant follow-up suggestions.`;
     });
     return result.suggestions;
   } catch {
-    return (FALLBACK[locale] ?? FALLBACK.de).suggestions;
+    return getFollowupFallback(locale);
   }
 }

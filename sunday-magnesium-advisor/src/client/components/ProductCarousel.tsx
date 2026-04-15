@@ -1,23 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { RecommendedProduct } from "../hooks/useChat.js";
-
-const PC_UI = {
-  de: {
-    intro: "Hier sind einige Produkte, die gut zu Ihnen passen könnten:",
-    seeMore: "Mehr erfahren",
-    whyFits: "Warum es passt:",
-    ingredients: "Inhaltsstoffe:",
-    note: "Hinweis:",
-  },
-  en: {
-    intro: "Here are some products that could be a great fit for you:",
-    seeMore: "See More",
-    whyFits: "Why this fits:",
-    ingredients: "Ingredients:",
-    note: "Note:",
-  },
-} as const;
-type PCLocale = keyof typeof PC_UI;
+import { i18n, type Locale as PCLocale } from "../i18n.js";
 
 interface Props {
   products: RecommendedProduct[];
@@ -26,7 +9,7 @@ interface Props {
 }
 
 export function ProductCarousel({ products, locale = "de", onClickTrack }: Props) {
-  const t = PC_UI[locale];
+  const t = i18n[locale];
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const [hasOverflow, setHasOverflow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -145,7 +128,7 @@ function ProductCard({
   expanded: boolean;
   onToggle: () => void;
   onClickTrack?: (p: RecommendedProduct) => void;
-  t: typeof PC_UI[PCLocale];
+  t: typeof i18n[PCLocale];
 }) {
   return (
     <div style={{

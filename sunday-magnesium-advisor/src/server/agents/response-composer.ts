@@ -9,6 +9,7 @@ import {
   Message,
 } from "../types/pipeline.js";
 import { RecommendedProduct } from "../products/types.js";
+import { getLangInstruction, getComposerFallback } from "../i18n.js";
 
 const SYSTEM_PROMPT_BASE = `You are the Response Composer for Sunday Natural's magnesium advisor.
 
@@ -24,11 +25,6 @@ Tone: warm, expert, like a trusted health practitioner friend.
 Weave safety notes naturally into the response.
 End with an invitation to ask follow-up questions.`;
 
-const LANG_INSTRUCTION: Record<string, string> = {
-  de: "WICHTIG: Schreibe die gesamte Antwort auf Deutsch.",
-  en: "IMPORTANT: Write the entire response in English.",
-};
-
 export async function composeResponse(
   message: string,
   intent: UserIntent,
@@ -40,7 +36,7 @@ export async function composeResponse(
   mcpHealthSummary = "",
   locale = "de"
 ): Promise<string> {
-  const systemPrompt = `${SYSTEM_PROMPT_BASE}\n\n${LANG_INSTRUCTION[locale] ?? LANG_INSTRUCTION.de}`;
+  const systemPrompt = `${SYSTEM_PROMPT_BASE}\n\n${getLangInstruction(locale)}`;
   const productList = products
     .slice(0, 3)
     .map(
@@ -83,14 +79,11 @@ Write a warm, helpful response under 200 words that recommends the best product(
       responseMimeType: "text/plain",
     });
   } catch {
+    const fb = getComposerFallback(locale);
     const topProduct = products[0];
     if (topProduct) {
-      return locale === "de"
-        ? `Basierend auf Ihren Angaben empfehle ich [${topProduct.name}](${topProduct.url}). Es ist eine ${topProduct.form}-Form von Magnesium, die gut zu Ihren Bedurfnissen passt, mit ${topProduct.mgPerServing}mg pro Portion. ${safety.disclaimer}`
-        : `Based on what you've shared, I'd recommend [${topProduct.name}](${topProduct.url}). It's a ${topProduct.form} form of magnesium that's well-suited to your needs, at ${topProduct.mgPerServing}mg per serving. ${safety.disclaimer}`;
+      return fb.withProduct(topProduct.name, topProduct.url, topProduct.form, topProduct.mgPerServing, safety.disclaimer);
     }
-    return locale === "de"
-      ? `Magnesiumglycinat ist generell der beste Einstieg fur die meisten Menschen. Es ist gut bioverfugbar und sanft fur das Verdauungssystem. ${safety.disclaimer}`
-      : `Magnesium glycinate is generally the best starting point for most people. It is highly bioavailable and gentle on the digestive system. ${safety.disclaimer}`;
+    return fb.withoutProduct(safety.disclaimer);
   }
 }
