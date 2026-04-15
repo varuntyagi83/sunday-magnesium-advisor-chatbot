@@ -13,26 +13,26 @@ export function SuggestionBubbles({ suggestions, onSelect }: Props) {
           key={s}
           onClick={() => onSelect(s)}
           style={{
-            background: "var(--cream)",
-            color: "#5B6B4A",
-            border: "1px solid var(--border)",
+            background: "transparent",
+            color: "var(--gold-dark)",
+            border: "1.5px solid var(--gold)",
             borderRadius: 9999,
-            padding: "10px 18px",
-            fontSize: 14,
+            padding: "8px 16px",
+            fontSize: 13,
             fontFamily: "Newsreader, serif",
             cursor: "pointer",
             transition: "all 0.2s ease",
             lineHeight: 1.4,
           }}
           onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "var(--sage)";
-            (e.currentTarget as HTMLButtonElement).style.color = "white";
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--sage)";
+            const b = e.currentTarget as HTMLButtonElement;
+            b.style.background = "var(--gold)";
+            b.style.color = "white";
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "var(--cream)";
-            (e.currentTarget as HTMLButtonElement).style.color = "#5B6B4A";
-            (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)";
+            const b = e.currentTarget as HTMLButtonElement;
+            b.style.background = "transparent";
+            b.style.color = "var(--gold-dark)";
           }}
         >
           {s}

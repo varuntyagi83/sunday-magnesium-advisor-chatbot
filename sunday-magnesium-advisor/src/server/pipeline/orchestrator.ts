@@ -94,27 +94,6 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
     };
   }
 
-  // ── Short-circuit: clarifying question needed ─────────────
-  if (ctx.intent.follow_up_needed && ctx.intent.clarifying_question) {
-    return {
-      response: ctx.intent.clarifying_question,
-      suggestions: [
-        "I have trouble sleeping",
-        "My muscles cramp after exercise",
-        "I feel stressed",
-        "General magnesium supplement",
-      ],
-      products: [],
-      sessionId,
-      debug: debug ? ctx : undefined,
-      metadata: {
-        totalDurationMs: Date.now() - overallStart,
-        agentDurations,
-        locale,
-      },
-    };
-  }
-
   // ── Step 2: Product Retrieval via MCP (reco_fast_path) ────
   // This replaces both the old health-profiler + product-retriever +
   // embedding-matcher, as the MCP already runs a full pipeline internally.
@@ -249,6 +228,7 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
     suggestions: ctx.suggestions!,
     products: ctx.recommendedProducts!,
     sessionId,
+    magnesiumBackground: retrievalResult.magnesiumBackground || undefined,
     debug: debug ? ctx : undefined,
     metadata: { totalDurationMs, agentDurations, locale },
   };

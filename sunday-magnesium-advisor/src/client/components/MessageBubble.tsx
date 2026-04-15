@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Message, RecommendedProduct } from "../hooks/useChat.js";
-import { ProductCard } from "./ProductCard.js";
+import { ProductCarousel } from "./ProductCarousel.js";
 import { SuggestionBubbles } from "./SuggestionBubbles.js";
+import lotusImg from "../assets/lotus.png";
 
 interface Props {
   message: Message;
@@ -10,19 +12,13 @@ interface Props {
 }
 
 function renderContent(text: string) {
-  // Parse markdown links: [text](url)
   const parts = text.split(/(\[.+?\]\(.+?\))/g);
   return parts.map((part, i) => {
     const match = part.match(/^\[(.+?)\]\((.+?)\)$/);
     if (match) {
       return (
-        <a
-          key={i}
-          href={match[2]}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: "var(--sage)", textDecoration: "underline" }}
-        >
+        <a key={i} href={match[2]} target="_blank" rel="noopener noreferrer"
+          style={{ color: "var(--gold-dark)", textDecoration: "underline" }}>
           {match[1]}
         </a>
       );
@@ -33,86 +29,127 @@ function renderContent(text: string) {
 
 export function MessageBubble({ message, isLast, onSuggestionClick, onProductClick }: Props) {
   const isUser = message.role === "user";
+  const [showLearnMore, setShowLearnMore] = useState(false);
+  const [showMetrics, setShowMetrics] = useState(false);
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: isUser ? "row-reverse" : "row",
-        gap: 10,
-        animation: "fadeUp 0.35s ease",
-        alignItems: "flex-start",
-      }}
-    >
-      {/* Avatar */}
-      {!isUser && (
-        <div
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #5B8C5A, #8FB87A)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 16,
-            flexShrink: 0,
-            animation: "leafSway 4s ease infinite",
-          }}
-        >
-          🌿
-        </div>
-      )}
-
-      <div style={{ maxWidth: "75%", display: "flex", flexDirection: "column", gap: 6 }}>
-        {!isUser && (
-          <div
-            style={{
-              fontSize: 10.5,
-              color: "var(--stone)",
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              marginBottom: 2,
-            }}
-          >
-            Sunday Natural Advisor
-          </div>
-        )}
-
-        {/* Bubble */}
-        <div
-          style={{
+  if (isUser) {
+    return (
+      <div style={{ display: "flex", justifyContent: "flex-end", animation: "fadeUp 0.35s ease" }}>
+        <div style={{ maxWidth: "70%" }}>
+          <div style={{
+            background: "var(--user-bubble)",
+            color: "white",
             padding: "12px 16px",
-            borderRadius: isUser ? "20px 20px 4px 20px" : "20px 20px 20px 4px",
-            background: isUser ? "var(--user-bubble)" : "white",
-            color: isUser ? "white" : "var(--bark)",
-            boxShadow: isUser ? "var(--shadow-user)" : "var(--shadow-card)",
+            borderRadius: "18px 18px 4px 18px",
             fontSize: 14,
-            lineHeight: 1.7,
-          }}
-        >
-          {renderContent(message.content)}
+            lineHeight: 1.6,
+            boxShadow: "var(--shadow-user)",
+          }}>
+            {message.content}
+          </div>
+          <div style={{ fontSize: 11, color: "var(--stone)", textAlign: "right", marginTop: 4 }}>
+            Delivered
+          </div>
         </div>
+      </div>
+    );
+  }
 
-        {/* Product cards */}
-        {!isUser && message.products && message.products.length > 0 && (
-          <div
-            style={{
-              display: "flex",
-              gap: 12,
-              overflowX: "auto",
-              paddingBottom: 4,
-              marginTop: 4,
-            }}
-          >
-            {message.products.map((p) => (
-              <ProductCard key={p.id} product={p} onClickTrack={onProductClick} />
-            ))}
+  // Assistant message
+  return (
+    <div style={{ display: "flex", gap: 10, alignItems: "flex-start", animation: "fadeUp 0.35s ease" }}>
+      {/* Lotus avatar */}
+      <div style={{
+        width: 34, height: 34, borderRadius: "50%",
+        background: "linear-gradient(135deg, #d0cbc4, #b8b3ac)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        flexShrink: 0, overflow: "hidden",
+      }}>
+        <img src={lotusImg} alt="Sunday Natural" style={{ width: 22, height: 22, objectFit: "contain" }} />
+      </div>
+
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6, minWidth: 0 }}>
+        {/* Text bubble */}
+        {message.content && (
+          <div style={{
+            background: "white",
+            borderRadius: "4px 18px 18px 18px",
+            padding: "14px 16px",
+            boxShadow: "var(--shadow-card)",
+            fontSize: 14,
+            lineHeight: 1.75,
+            color: "var(--bark)",
+          }}>
+            {renderContent(message.content)}
+
+            {/* Learn more collapsible */}
+            {message.magnesiumBackground && (
+              <div style={{ marginTop: 10 }}>
+                <button
+                  onClick={() => setShowLearnMore(v => !v)}
+                  style={{
+                    background: "none", border: "none", cursor: "pointer",
+                    color: "var(--gold-dark)", fontSize: 13, padding: 0,
+                    fontFamily: "Newsreader, serif",
+                    display: "flex", alignItems: "center", gap: 4,
+                  }}
+                >
+                  <span style={{ fontSize: 11 }}>►</span>
+                  {showLearnMore ? "Hide" : "Learn more about this form"}
+                </button>
+                {showLearnMore && (
+                  <div style={{
+                    marginTop: 8, padding: "10px 12px",
+                    background: "var(--gold-subtle)", borderRadius: 8,
+                    fontSize: 13, color: "var(--stone)", lineHeight: 1.6,
+                  }}>
+                    {message.magnesiumBackground}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
-        {/* Suggestion bubbles on last assistant message */}
-        {!isUser && isLast && message.suggestions && message.suggestions.length > 0 && (
+        {/* Product carousel */}
+        {message.products && message.products.length > 0 && (
+          <ProductCarousel products={message.products} onClickTrack={onProductClick} />
+        )}
+
+        {/* Performance Metrics collapsible */}
+        {message.agentDurations && (
+          <div>
+            <button
+              onClick={() => setShowMetrics(v => !v)}
+              style={{
+                background: "none", border: "none", cursor: "pointer",
+                color: "var(--gold-dark)", fontSize: 13, padding: 0,
+                fontFamily: "Newsreader, serif",
+                display: "flex", alignItems: "center", gap: 4,
+              }}
+            >
+              <span style={{ fontSize: 11 }}>►</span>
+              {showMetrics ? "Hide" : "Performance Metrics"}
+            </button>
+            {showMetrics && (
+              <div style={{
+                marginTop: 6, padding: "10px 12px",
+                background: "white", borderRadius: 8, border: "1px solid var(--border)",
+                fontSize: 12, color: "var(--stone)",
+              }}>
+                {Object.entries(message.agentDurations).map(([k, v]) => (
+                  <div key={k} style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
+                    <span>{k.replace(/_/g, " ")}</span>
+                    <span style={{ fontVariantNumeric: "tabular-nums" }}>{v}ms</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Suggestion bubbles on last message */}
+        {isLast && message.suggestions && message.suggestions.length > 0 && (
           <SuggestionBubbles suggestions={message.suggestions} onSelect={onSuggestionClick} />
         )}
       </div>

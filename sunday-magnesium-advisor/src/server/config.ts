@@ -5,7 +5,7 @@ const configSchema = z.object({
   // Gemini — single LLM provider for all agents
   GEMINI_API_KEY: z.string().min(1, "GEMINI_API_KEY is required"),
   GEMINI_MODEL_FAST: z.string().default("gemini-2.5-flash"),
-  GEMINI_MODEL_REASONING: z.string().default("gemini-2.5-pro"),
+  GEMINI_MODEL_REASONING: z.string().default("gemini-2.5-flash"),
 
   // Custom MCP endpoint (Sunday Natural's own — NOT Supabase, NOT n8n)
   MCP_ENDPOINT_URL: z.string().url("MCP_ENDPOINT_URL must be a valid URL"),

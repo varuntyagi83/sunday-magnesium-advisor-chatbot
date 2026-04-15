@@ -93,6 +93,7 @@ export interface PipelineResult {
   suggestions: string[];
   products: import("../products/types.js").RecommendedProduct[];
   sessionId: string;
+  magnesiumBackground?: string;
   debug?: PipelineContext;
   metadata: {
     totalDurationMs: number;

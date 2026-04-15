@@ -30,7 +30,14 @@ export async function runGeminiAgent<T>(opts: GeminiRunOptions<T>): Promise<T> {
   const body = {
     system_instruction: { parts: [{ text: systemPrompt }] },
     contents: [{ role: "user", parts: [{ text: userMessage }] }],
-    generationConfig: { responseMimeType, temperature, maxOutputTokens },
+    generationConfig: {
+      responseMimeType,
+      temperature,
+      maxOutputTokens,
+      // Disable thinking budget — we don't need chain-of-thought for these structured agents
+      // and it would consume maxOutputTokens before producing any real output
+      thinkingConfig: { thinkingBudget: 0 },
+    },
   };
 
   let lastErr: unknown;
@@ -60,11 +67,18 @@ export async function runGeminiAgent<T>(opts: GeminiRunOptions<T>): Promise<T> {
       }
 
       const data = await res.json() as {
-        candidates: { content: { parts: { text: string }[] } }[];
-        usageMetadata?: { totalTokenCount?: number };
+        candidates: { content?: { parts?: { text?: string }[] }; finishReason?: string }[];
+        usageMetadata?: { totalTokenCount?: number; thoughtsTokenCount?: number };
       };
 
-      const raw = data.candidates[0]?.content?.parts[0]?.text ?? "";
+      const candidate = data.candidates[0];
+      if (candidate?.finishReason === "MAX_TOKENS") {
+        throw new Error(`Gemini hit MAX_TOKENS — increase maxOutputTokens or switch to a non-thinking model`);
+      }
+
+      // Thinking models may split output across multiple parts; join all non-empty text parts
+      const parts = candidate?.content?.parts ?? [];
+      const raw = parts.map((p) => p.text ?? "").join("").trim();
 
       if (responseMimeType === "text/plain") {
         return raw as unknown as T;

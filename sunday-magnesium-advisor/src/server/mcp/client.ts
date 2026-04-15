@@ -8,6 +8,46 @@ import {
 
 const logger = createLogger("mcp");
 
+// ── Circuit breaker ────────────────────────────────────────────
+// Opens after 3 failures within 60 s. Stays open for 30 s,
+// then enters half-open (next call is a probe to check recovery).
+const CB = {
+  FAILURE_THRESHOLD: 3,
+  WINDOW_MS: 60_000,   // count failures in this rolling window
+  OPEN_DURATION_MS: 30_000, // how long to stay open before probing
+};
+
+const cbState = {
+  failures: [] as number[],     // timestamps of recent failures
+  openedAt: null as number | null, // when circuit opened (null = closed)
+};
+
+function cbIsOpen(): boolean {
+  if (cbState.openedAt === null) return false;
+  // Transition open → half-open after OPEN_DURATION_MS
+  if (Date.now() - cbState.openedAt >= CB.OPEN_DURATION_MS) {
+    cbState.openedAt = null; // allow one probe
+    return false;
+  }
+  return true;
+}
+
+function cbRecordFailure(): void {
+  const now = Date.now();
+  // Prune failures outside rolling window
+  cbState.failures = cbState.failures.filter((t) => now - t < CB.WINDOW_MS);
+  cbState.failures.push(now);
+  if (cbState.failures.length >= CB.FAILURE_THRESHOLD) {
+    cbState.openedAt = now;
+    logger.warn({ failures: cbState.failures.length }, "MCP circuit breaker OPEN");
+  }
+}
+
+function cbRecordSuccess(): void {
+  cbState.failures = [];
+  cbState.openedAt = null;
+}
+
 // ── Session management ─────────────────────────────────────────
 // Each call requires an initialized session. We cache the session
 // ID and re-use it; re-initialize on failure.
@@ -48,6 +88,10 @@ async function initSession(): Promise<string> {
 
 // ── JSON-RPC call via HTTP+SSE ─────────────────────────────────
 async function callTool<T>(toolName: string, args: Record<string, unknown>): Promise<T> {
+  if (cbIsOpen()) {
+    throw new Error("MCP circuit breaker is open — skipping call to prevent cascade failure");
+  }
+
   const sessionId = await getSessionId();
 
   const res = await fetch(config.MCP_ENDPOINT_URL, {
@@ -93,11 +137,17 @@ async function callTool<T>(toolName: string, args: Record<string, unknown>): Pro
   if (rpc.result.isError) throw new Error(`MCP tool ${toolName} returned isError=true`);
 
   // Prefer structuredContent, fall back to parsing text content
-  if (rpc.result.structuredContent) return rpc.result.structuredContent as T;
+  let result: T;
+  if (rpc.result.structuredContent) {
+    result = rpc.result.structuredContent as T;
+  } else {
+    const textContent = rpc.result.content?.find((c) => c.type === "text")?.text;
+    if (!textContent) throw new Error("MCP result has no text content");
+    result = JSON.parse(textContent) as T;
+  }
 
-  const textContent = rpc.result.content?.find((c) => c.type === "text")?.text;
-  if (!textContent) throw new Error("MCP result has no text content");
-  return JSON.parse(textContent) as T;
+  cbRecordSuccess();
+  return result;
 }
 
 // ── Public API ─────────────────────────────────────────────────
@@ -115,8 +165,10 @@ export async function recoFastPath(userQuery: string): Promise<RecoFastPathResul
       return RecoFastPathResultSchema.parse(raw);
     } catch (err) {
       lastErr = err;
+      cbRecordFailure();
       cachedSessionId = null; // force re-init on retry
       logger.warn({ err, attempt }, "reco_fast_path failed — retrying");
+      if (cbIsOpen()) break; // circuit just opened, no point retrying
     }
   }
 
@@ -146,10 +198,21 @@ export async function recommendProducts(params: {
  * Health check — returns true if MCP is reachable.
  */
 export async function testMcpConnection(): Promise<boolean> {
+  if (cbIsOpen()) return false; // circuit open, no need to probe
   try {
     await getSessionId();
     return true;
   } catch {
     return false;
   }
+}
+
+/**
+ * Circuit breaker state for observability (health endpoint).
+ */
+export function getMcpCircuitBreakerStatus(): { state: "closed" | "open"; failures: number } {
+  return {
+    state: cbIsOpen() ? "open" : "closed",
+    failures: cbState.failures.length,
+  };
 }

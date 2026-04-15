@@ -33,7 +33,13 @@ Signal mappings:
 - "migraine", "headache" → ["migraine"]
 - "pregnant", "pregnancy" → ["pregnancy"]
 
-If message is vague, set follow_up_needed=true and provide a clarifying_question.`;
+CRITICAL RULES for follow_up_needed:
+- Set follow_up_needed=FALSE for the vast majority of messages. Any health signal (sleep, muscle, stress, etc.) is enough to make a recommendation.
+- Only set follow_up_needed=TRUE if the message has ZERO health signals AND ZERO intent (e.g., a single word like "help" or a completely unrelated topic).
+- NEVER ask about form preference or dietary restrictions — the product database handles that.
+- "I have trouble sleeping" → follow_up_needed=false
+- "I feel stressed" → follow_up_needed=false
+- "recommend something" → follow_up_needed=true (no signals at all)`;
 
 const FALLBACK: UserIntent = {
   primary_intent: "general_wellness",

@@ -6,6 +6,8 @@ export interface Message {
   content: string;
   products?: RecommendedProduct[];
   suggestions?: string[];
+  magnesiumBackground?: string;
+  agentDurations?: Record<string, number>;
   timestamp: Date;
 }
 
@@ -16,8 +18,14 @@ export interface RecommendedProduct {
   url: string;
   imageUrl: string;
   price: number;
+  currency?: string;
   form: string;
   mgPerServing: number;
+  formFactor?: string;
+  unit?: string;
+  whyRecommended?: string;
+  activeIngredients?: string;
+  cautions?: string;
   matchScore: number;
   matchReasons: string[];
   relevanceRank: number;
@@ -45,7 +53,7 @@ function makeId() {
   return Math.random().toString(36).slice(2);
 }
 
-export function useChat() {
+export function useChat(apiUrl = "") {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [pipelineSteps, setPipelineSteps] = useState<PipelineStep[]>([]);
@@ -65,10 +73,10 @@ export function useChat() {
     const history = messages.slice(-6).map((m) => ({ role: m.role, content: m.content }));
 
     try {
-      const res = await fetch("/api/chat/stream", {
+      const res = await fetch(`${apiUrl}/api/chat/stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, sessionId, history }),
+        body: JSON.stringify({ message: text, ...(sessionId ? { sessionId } : {}), history }),
         signal: controller.signal,
       });
 
@@ -81,6 +89,8 @@ export function useChat() {
       let products: RecommendedProduct[] = [];
       let suggestions: string[] = [];
       let response = "";
+      let magnesiumBackground = "";
+      let agentDurations: Record<string, number> = {};
 
       while (true) {
         const { done, value } = await reader.read();
@@ -125,9 +135,11 @@ export function useChat() {
                   break;
                 case "response":
                   response = payload.response;
+                  if (payload.magnesiumBackground) magnesiumBackground = payload.magnesiumBackground;
                   break;
                 case "done":
                   if (payload.sessionId) setSessionId(payload.sessionId);
+                  if (payload.metadata?.agentDurations) agentDurations = payload.metadata.agentDurations;
                   break;
               }
             } catch { /* malformed chunk */ }
@@ -141,6 +153,8 @@ export function useChat() {
         content: response,
         products,
         suggestions,
+        magnesiumBackground: magnesiumBackground || undefined,
+        agentDurations: Object.keys(agentDurations).length ? agentDurations : undefined,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, assistantMsg]);

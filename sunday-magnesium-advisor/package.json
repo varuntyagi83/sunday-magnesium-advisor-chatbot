@@ -11,7 +11,7 @@
     "build": "pnpm build:server && pnpm build:client",
     "build:server": "tsc -p tsconfig.server.json",
     "build:client": "vite build",
-    "embed:build": "vite build --config vite.embed.config.ts",
+    "embed:build": "NODE_ENV=production vite build --config vite.embed.config.ts",
     "typecheck": "tsc -p tsconfig.server.json --noEmit && tsc -p tsconfig.client.json --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "vitest run",
@@ -28,6 +28,8 @@
     "helmet": "^7.1.0",
     "pino": "^8.17.2",
     "pino-pretty": "^10.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "uuid": "^9.0.1",
     "zod": "^3.22.4"
   },

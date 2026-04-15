@@ -1,17 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-  --sage: #5B8C5A;
-  --sage-light: #8FB87A;
-  --sage-dark: #4A7349;
+  /* Sunday Natural gold/tan palette */
+  --gold: #C4A882;
+  --gold-dark: #B8956A;
+  --gold-light: #D4C3A3;
+  --gold-subtle: #F0EAE0;
+
+  /* Backgrounds */
   --cream: #FAF7F2;
+  --chat-bg: #EEEAE5;
   --warm: #F5F0E8;
+
+  /* Text */
   --bark: #3D3928;
   --stone: #8B8272;
-  --border: #c8bfb1;
-  --user-bubble: linear-gradient(135deg, #5B8C5A, #6B9E5B);
-  --shadow-user: 0 3px 12px rgba(91,140,90,0.3);
-  --shadow-card: 0 1px 6px rgba(0,0,0,0.06);
+  --border: #E0D8CE;
+
+  /* Bubbles */
+  --user-bubble: linear-gradient(135deg, #C4A882, #B8956A);
+  --shadow-user: 0 3px 12px rgba(196,168,130,0.35);
+  --shadow-card: 0 1px 8px rgba(0,0,0,0.07);
+
+  /* Legacy aliases (keep for components not yet updated) */
+  --sage: #C4A882;
+  --sage-light: #D4C3A3;
+  --sage-dark: #B8956A;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
