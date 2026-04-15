@@ -561,7 +561,7 @@ Verify: Run a chat session. Check BigQuery table (or console logs) for events.
 Confirm product clicks track the correct slug and URL.
 ```
 
-### Phase 7 — React Chat Widget with Suggestion Bubbles
+### Phase 7.1 — React Chat Widget with Suggestion Bubbles
 
 **Prompt for Claude Code:**
 ```
@@ -632,6 +632,21 @@ Match the screenshot bubbles exactly.
 Verify: pnpm dev:client shows welcome message with 4 suggestion bubbles.
 Clicking one sends it. Pipeline tracker animates during loading.
 Product cards appear with clickable URLs.
+```
+### Phase 7.2 - Styling
+
+**Prompt for Claude Code:**
+```
+I have a design reference file for the chat widget UI. Read @magnesium-advisor.jsx 
+(the attached file). Match the EXACT visual styling from this reference:
+- SuggestionBubbles: same padding, border-radius, colors, hover states
+- MessageBubble: same border-radius values (20px top, 4px corners), same shadows
+- PipelineTracker: same pill layout with chevrons, pulse animation
+- ChatWindow: same header layout, input bar styling, disclaimer footer
+- Overall: same Newsreader font, same CSS custom properties, same color values
+
+Do NOT change any backend logic or component structure. Only update the CSS/styling 
+to match the reference JSX pixel for pixel.
 ```
 
 ### Phase 8 — Gemini LLM Integration Details
