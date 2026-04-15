@@ -10,7 +10,7 @@ import {
 } from "../types/pipeline.js";
 import { RecommendedProduct } from "../products/types.js";
 
-const SYSTEM_PROMPT = `You are the Response Composer for Sunday Natural's magnesium advisor.
+const SYSTEM_PROMPT_BASE = `You are the Response Composer for Sunday Natural's magnesium advisor.
 
 Write a warm, knowledgeable, concise recommendation under 200 words.
 NO bullet lists. NO markdown headers. Natural paragraphs only.
@@ -24,6 +24,11 @@ Tone: warm, expert, like a trusted health practitioner friend.
 Weave safety notes naturally into the response.
 End with an invitation to ask follow-up questions.`;
 
+const LANG_INSTRUCTION: Record<string, string> = {
+  de: "WICHTIG: Schreibe die gesamte Antwort auf Deutsch.",
+  en: "IMPORTANT: Write the entire response in English.",
+};
+
 export async function composeResponse(
   message: string,
   intent: UserIntent,
@@ -32,8 +37,10 @@ export async function composeResponse(
   safety: SafetyCheck,
   dosage: DosagePlan,
   history: Message[],
-  mcpHealthSummary = ""
+  mcpHealthSummary = "",
+  locale = "de"
 ): Promise<string> {
+  const systemPrompt = `${SYSTEM_PROMPT_BASE}\n\n${LANG_INSTRUCTION[locale] ?? LANG_INSTRUCTION.de}`;
   const productList = products
     .slice(0, 3)
     .map(
@@ -68,7 +75,7 @@ Write a warm, helpful response under 200 words that recommends the best product(
   try {
     return await runGeminiAgent({
       model: config.GEMINI_MODEL_REASONING,
-      systemPrompt: SYSTEM_PROMPT,
+      systemPrompt,
       userMessage,
       schema: z.string(),
       temperature: 0.7,
@@ -78,8 +85,12 @@ Write a warm, helpful response under 200 words that recommends the best product(
   } catch {
     const topProduct = products[0];
     if (topProduct) {
-      return `Based on what you've shared, I'd recommend [${topProduct.name}](${topProduct.url}). It's a ${topProduct.form} form of magnesium that's well-suited to your needs, at ${topProduct.mgPerServing}mg per serving. ${safety.disclaimer}`;
+      return locale === "de"
+        ? `Basierend auf Ihren Angaben empfehle ich [${topProduct.name}](${topProduct.url}). Es ist eine ${topProduct.form}-Form von Magnesium, die gut zu Ihren Bedurfnissen passt, mit ${topProduct.mgPerServing}mg pro Portion. ${safety.disclaimer}`
+        : `Based on what you've shared, I'd recommend [${topProduct.name}](${topProduct.url}). It's a ${topProduct.form} form of magnesium that's well-suited to your needs, at ${topProduct.mgPerServing}mg per serving. ${safety.disclaimer}`;
     }
-    return `Magnesium glycinate is generally the best starting point for most people. It is highly bioavailable and gentle on the digestive system. ${safety.disclaimer}`;
+    return locale === "de"
+      ? `Magnesiumglycinat ist generell der beste Einstieg fur die meisten Menschen. Es ist gut bioverfugbar und sanft fur das Verdauungssystem. ${safety.disclaimer}`
+      : `Magnesium glycinate is generally the best starting point for most people. It is highly bioavailable and gentle on the digestive system. ${safety.disclaimer}`;
   }
 }

@@ -6,19 +6,57 @@ import { SuggestionBubbles } from "./SuggestionBubbles.js";
 import { ConsentBanner, useConsent } from "./ConsentBanner.js";
 import lotusImg from "../assets/lotus.png";
 
-const INITIAL_SUGGESTIONS = [
-  "Magnesium for stress and anxiety",
-  "I need magnesium for better sleep",
-  "What magnesium is best for muscle relaxation?",
-  "Best general magnesium supplement",
-];
+type Locale = "de" | "en";
 
+// ── i18n strings ──────────────────────────────────────────────
+const UI = {
+  de: {
+    greeting: "Hallo 👋 Ich bin Ihr Sunday Natural Berater. Ich helfe Ihnen, das beste Magnesium für Sie zu finden! 🌿",
+    tryOne: "Probieren Sie eine dieser Optionen:",
+    suggestions: [
+      "Magnesium gegen Stress und Angst",
+      "Ich brauche Magnesium für besseren Schlaf",
+      "Welches Magnesium hilft am besten bei Muskelentspannung?",
+      "Bestes allgemeines Magnesium-Supplement",
+    ],
+    refinementQ: "Passen diese gut – oder haben Sie besondere Wünsche?",
+    tryForm: "ANDERE FORM AUSPROBIEREN",
+    inputPlaceholder: "Fragen Sie mich nach Magnesium...",
+    refinementPlaceholder: "z.B. hohe Dosis, vegan, nur Pulver...",
+    poweredBy: "⚡ Powered by Sunday Natural",
+    declined: "Sie haben die Datenverarbeitung abgelehnt. Der Berater ist nicht verfügbar.",
+    changeMind: "Meinung ändern",
+    formLabels: { capsule: "Kapsel", tablet: "Tablette", powder: "Pulver", liquid: "Flüssig", gummy: "Gummibärchen" } as Record<string, string>,
+    formMsg: (label: string) => `Ich bevorzuge Magnesium in ${label}form`,
+  },
+  en: {
+    greeting: "Hello 👋 I am your Sunday Natural Advisor. I can help you discover the best magnesium for you! 🌿",
+    tryOne: "Try one of these:",
+    suggestions: [
+      "Magnesium for stress and anxiety",
+      "I need magnesium for better sleep",
+      "What magnesium is best for muscle relaxation?",
+      "Best general magnesium supplement",
+    ],
+    refinementQ: "Are these a good fit — or do you have special preferences?",
+    tryForm: "TRY A DIFFERENT FORM",
+    inputPlaceholder: "Ask me about magnesium...",
+    refinementPlaceholder: "e.g. high dose, vegan, powder only...",
+    poweredBy: "⚡ Powered by Sunday Natural",
+    declined: "You have declined data processing. The advisor is unavailable.",
+    changeMind: "Change my mind",
+    formLabels: { capsule: "Capsule", tablet: "Tablet", powder: "Powder", liquid: "Liquid", gummy: "Gummy" } as Record<string, string>,
+    formMsg: (label: string) => `I prefer ${label} form magnesium`,
+  },
+};
+
+// key = used for form-matching logic; emoji = display; key also indexes into UI.formLabels
 const FORM_PILLS = [
-  { emoji: "💊", label: "Capsule" },
-  { emoji: "🔵", label: "Tablet" },
-  { emoji: "🥄", label: "Powder" },
-  { emoji: "💧", label: "Liquid" },
-  { emoji: "🍬", label: "Gummy" },
+  { key: "capsule", emoji: "💊" },
+  { key: "tablet",  emoji: "🔵" },
+  { key: "powder",  emoji: "🥄" },
+  { key: "liquid",  emoji: "💧" },
+  { key: "gummy",   emoji: "🍬" },
 ];
 
 interface ChatWindowProps {
@@ -29,12 +67,15 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
-  const { messages, loading, pipelineSteps, sendMessage } = useChat(apiUrl);
+  const [locale, setLocale] = useState<Locale>("de");
+  const { messages, loading, pipelineSteps, sendMessage } = useChat(apiUrl, locale);
   const [input, setInput] = useState("");
   const [refinementInput, setRefinementInput] = useState("");
   const [hasRefined, setHasRefined] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const { state: consentState, accept: acceptConsent, decline: declineConsent } = useConsent();
+
+  const t = UI[locale];
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -73,20 +114,14 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
 
   const lastMsg = messages[messages.length - 1];
   const showRefinement = !loading && !hasRefined && lastMsg?.role === "assistant" && (lastMsg.products?.length ?? 0) > 0;
-  const showInitialSuggestions = messages.length === 0 && !loading;
 
-  // Only offer form pills for forms NOT already present in the recommendations.
-  // e.g. if all products are capsules, don't show the Capsule pill — it's a false choice.
-  // Normalise to singular lowercase ("Capsules" → "capsule", "Tablets" → "tablet")
+  // Match form keys against product form data (normalise plurals: "Capsules" → "capsule")
   const normalize = (s: string) => s.toLowerCase().replace(/s$/, "");
   const presentForms = new Set(
     (lastMsg?.products ?? []).map((p) => normalize(p.formFactor || p.form || ""))
   );
-  // Only show pills for forms that ARE in the recommendations (not alternatives).
-  // Multiple forms → let user pick their preference among what's actually available.
-  const availableFormPills = FORM_PILLS.filter(
-    ({ label }) => presentForms.has(normalize(label))
-  );
+  // Show pills only for forms that ARE in the recommendations; hide if all same form
+  const availableFormPills = FORM_PILLS.filter(({ key }) => presentForms.has(normalize(key)));
 
   return (
     <div style={{
@@ -109,7 +144,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
           padding: 24, textAlign: "center", fontFamily: "Newsreader, serif",
         }}>
           <p style={{ fontSize: 14, color: "var(--bark)", marginBottom: 16 }}>
-            You have declined data processing. The advisor is unavailable.
+            {t.declined}
           </p>
           <button
             onClick={acceptConsent}
@@ -119,10 +154,11 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
               fontSize: 13, cursor: "pointer",
             }}
           >
-            Change my mind
+            {t.changeMind}
           </button>
         </div>
       )}
+
       {/* ── Header ─────────────────────────────────────────────── */}
       <div style={{
         background: "var(--gold, #C4A882)",
@@ -146,7 +182,37 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
             Sunday Natural
           </span>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          {/* Language toggle */}
+          <div style={{
+            display: "flex", borderRadius: 9999,
+            border: "1px solid rgba(255,255,255,0.4)",
+            overflow: "hidden",
+          }}>
+            {(["de", "en"] as Locale[]).map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setLocale(lang)}
+                disabled={messages.length > 0}
+                title={messages.length > 0 ? "Language cannot be changed mid-conversation" : undefined}
+                style={{
+                  padding: "3px 9px",
+                  fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                  border: "none",
+                  cursor: messages.length > 0 ? "default" : "pointer",
+                  background: locale === lang ? "rgba(255,255,255,0.9)" : "transparent",
+                  color: locale === lang ? "var(--gold)" : "rgba(255,255,255,0.75)",
+                  transition: "all 0.15s",
+                }}
+              >
+                {lang.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <button
             onClick={handleReset}
             title="Reset conversation"
@@ -197,11 +263,11 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
                 <img src={lotusImg} alt="" style={{ width: 22, height: 22, objectFit: "contain" }} />
               </div>
               <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--bark)", margin: 0 }}>
-                Hello 👋 I am your Sunday Natural Advisor. I can help you discover the best magnesium for you! 🌿
+                {t.greeting}
               </p>
             </div>
-            <p style={{ fontSize: 13, color: "var(--stone)", marginBottom: 10 }}>Try one of these:</p>
-            <SuggestionBubbles suggestions={INITIAL_SUGGESTIONS} onSelect={handleSend} />
+            <p style={{ fontSize: 13, color: "var(--stone)", marginBottom: 10 }}>{t.tryOne}</p>
+            <SuggestionBubbles suggestions={t.suggestions} onSelect={handleSend} />
           </div>
         )}
 
@@ -258,44 +324,47 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
           padding: "12px 14px", flexShrink: 0,
         }}>
           <p style={{ fontWeight: 600, fontSize: 13, color: "var(--bark)", margin: "0 0 8px 0" }}>
-            Are these a good fit — or do you have special preferences?
+            {t.refinementQ}
           </p>
           {presentForms.size > 1 && availableFormPills.length > 0 && (
             <>
               <p style={{ fontSize: 10.5, color: "var(--stone)", textTransform: "uppercase", letterSpacing: "0.08em", margin: "0 0 8px 0" }}>
-                Try a different form
+                {t.tryForm}
               </p>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-                {availableFormPills.map(({ emoji, label }) => (
-                  <button
-                    key={label}
-                    onClick={() => handleRefinementSend(`I prefer ${label.toLowerCase()} form magnesium`)}
-                    style={{
-                      background: "transparent",
-                      border: "1px solid var(--border)",
-                      borderRadius: 9999,
-                      padding: "5px 12px",
-                      fontSize: 13,
-                      cursor: "pointer",
-                      display: "flex", alignItems: "center", gap: 4,
-                      fontFamily: "Newsreader, serif",
-                      color: "var(--bark)",
-                      transition: "all 0.15s",
-                    }}
-                    onMouseEnter={(e) => {
-                      const b = e.currentTarget as HTMLButtonElement;
-                      b.style.background = "var(--gold-subtle)";
-                      b.style.borderColor = "var(--gold)";
-                    }}
-                    onMouseLeave={(e) => {
-                      const b = e.currentTarget as HTMLButtonElement;
-                      b.style.background = "transparent";
-                      b.style.borderColor = "var(--border)";
-                    }}
-                  >
-                    {emoji} {label}
-                  </button>
-                ))}
+                {availableFormPills.map(({ key, emoji }) => {
+                  const label = t.formLabels[key] ?? key;
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => handleRefinementSend(t.formMsg(label))}
+                      style={{
+                        background: "transparent",
+                        border: "1px solid var(--border)",
+                        borderRadius: 9999,
+                        padding: "5px 12px",
+                        fontSize: 13,
+                        cursor: "pointer",
+                        display: "flex", alignItems: "center", gap: 4,
+                        fontFamily: "Newsreader, serif",
+                        color: "var(--bark)",
+                        transition: "all 0.15s",
+                      }}
+                      onMouseEnter={(e) => {
+                        const b = e.currentTarget as HTMLButtonElement;
+                        b.style.background = "var(--gold-subtle)";
+                        b.style.borderColor = "var(--gold)";
+                      }}
+                      onMouseLeave={(e) => {
+                        const b = e.currentTarget as HTMLButtonElement;
+                        b.style.background = "transparent";
+                        b.style.borderColor = "var(--border)";
+                      }}
+                    >
+                      {emoji} {label}
+                    </button>
+                  );
+                })}
               </div>
             </>
           )}
@@ -303,7 +372,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
             value={refinementInput}
             onChange={(e) => setRefinementInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleRefinementSend(refinementInput)}
-            placeholder="e.g. high dose, vegan, powder only..."
+            placeholder={t.refinementPlaceholder}
             style={{
               width: "100%", border: "1px solid var(--border)", borderRadius: 8,
               padding: "8px 12px", fontSize: 13, fontFamily: "Newsreader, serif",
@@ -325,7 +394,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend(input)}
-            placeholder="Ask me about magnesium..."
+            placeholder={t.inputPlaceholder}
             disabled={loading}
             style={{
               flex: 1, border: "1px solid var(--border)",
@@ -351,7 +420,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
           </button>
         </div>
         <div style={{ textAlign: "center", marginTop: 6, fontSize: 11, color: "var(--stone)" }}>
-          ⚡ Powered by Sunday Natural
+          {t.poweredBy}
         </div>
       </div>
     </div>

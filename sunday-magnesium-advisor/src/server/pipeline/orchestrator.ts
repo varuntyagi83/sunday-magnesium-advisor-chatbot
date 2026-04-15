@@ -195,7 +195,8 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
         ctx.safetyCheck!,
         ctx.dosagePlan!,
         history,
-        retrievalResult.healthSummary
+        retrievalResult.healthSummary,
+        locale
       )
     );
     ctx.response = result;
@@ -208,7 +209,7 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
   // ── Step 8: Follow-up Generation ─────────────────────────
   try {
     const { result, durationMs } = await timed("followup_generator", "Suggest", ctx, onStep, () =>
-      generateFollowUps(message, ctx.intent!, ctx.recommendedProducts!)
+      generateFollowUps(message, ctx.intent!, ctx.recommendedProducts!, locale)
     );
     ctx.suggestions = result;
     agentDurations.followup_generator = durationMs;

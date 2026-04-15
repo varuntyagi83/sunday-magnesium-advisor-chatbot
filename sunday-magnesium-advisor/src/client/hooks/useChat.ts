@@ -53,7 +53,7 @@ function makeId() {
   return Math.random().toString(36).slice(2);
 }
 
-export function useChat(apiUrl = "") {
+export function useChat(apiUrl = "", locale = "de") {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [pipelineSteps, setPipelineSteps] = useState<PipelineStep[]>([]);
@@ -76,7 +76,7 @@ export function useChat(apiUrl = "") {
       const res = await fetch(`${apiUrl}/api/chat/stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, ...(sessionId ? { sessionId } : {}), history }),
+        body: JSON.stringify({ message: text, ...(sessionId ? { sessionId } : {}), history, locale }),
         signal: controller.signal,
       });
 
