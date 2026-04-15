@@ -38,23 +38,11 @@ export async function fetchProductEmbeddings(): Promise<ProductEmbedding[]> {
 }
 
 async function fetchFromMcp(): Promise<ProductEmbedding[]> {
-  const url = `${config.MCP_ENDPOINT_URL}/tools/get-product-embeddings`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${config.MCP_AUTH_TOKEN}`,
-    },
-    body: JSON.stringify({ category: "magnesium" }),
-    signal: AbortSignal.timeout(10_000),
-  });
-
-  if (!res.ok) {
-    throw new Error(`MCP get-product-embeddings returned ${res.status}`);
-  }
-
-  const raw = await res.json();
-  return EmbeddingsStoreResponseSchema.parse(raw).embeddings;
+  // The MCP server handles semantic search internally via reco_fast_path.
+  // Pre-computed embeddings are not exposed as a separate endpoint.
+  // Return empty — the embedding-matcher will fall back to MCP rank order.
+  logger.debug("EMBEDDINGS_SOURCE=mcp: this MCP handles search internally, skipping pre-fetch");
+  return [];
 }
 
 async function fetchFromApi(): Promise<ProductEmbedding[]> {

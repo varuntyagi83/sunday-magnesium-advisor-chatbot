@@ -31,7 +31,8 @@ export async function composeResponse(
   products: RecommendedProduct[],
   safety: SafetyCheck,
   dosage: DosagePlan,
-  history: Message[]
+  history: Message[],
+  mcpHealthSummary = ""
 ): Promise<string> {
   const productList = products
     .slice(0, 3)
@@ -50,6 +51,7 @@ export async function composeResponse(
       : "";
 
   const userMessage = `User asked: "${message}"
+${mcpHealthSummary ? `\nHealth context from product database:\n${mcpHealthSummary}\n` : ""}
 ${conversationContext}
 Health profile: ${profile.profile_summary}
 Top magnesium form: ${profile.magnesium_forms_ranked[0]?.form ?? "glycinate"}

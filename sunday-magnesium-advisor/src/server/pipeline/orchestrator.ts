@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { createLogger } from "../logger.js";
 import { classifyIntent } from "../agents/intent-classifier.js";
 import { profileHealth } from "../agents/health-profiler.js";
-import { retrieveProducts } from "../agents/product-retriever.js";
+import { retrieveProducts, ProductRetrievalResult } from "../agents/product-retriever.js";
 import { matchProducts } from "../agents/embedding-matcher.js";
 import { checkContraindications } from "../agents/contraindication-checker.js";
 import { adviseDosage } from "../agents/dosage-advisor.js";
@@ -41,7 +41,7 @@ async function timed<T>(
   try {
     const result = await fn();
     const durationMs = Date.now() - start;
-    ctx.agentErrors && delete ctx.agentErrors[agentId];
+    delete ctx.agentErrors[agentId];
     onStep?.({ agentId, agentName, status: "done", durationMs });
     return { result, durationMs };
   } catch (err) {
@@ -115,7 +115,29 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
     };
   }
 
-  // ── Step 2: Health Profiling ──────────────────────────────
+  // ── Step 2: Product Retrieval via MCP (reco_fast_path) ────
+  // This replaces both the old health-profiler + product-retriever +
+  // embedding-matcher, as the MCP already runs a full pipeline internally.
+  let retrievalResult: ProductRetrievalResult = {
+    products: [],
+    healthSummary: "",
+    magnesiumBackground: "",
+    category: "",
+    mcpResult: { success: false, is_valid: false, recommendations: [] },
+  };
+
+  try {
+    const { result, durationMs } = await timed("product_retriever", "Products", ctx, onStep, () =>
+      retrieveProducts(message)
+    );
+    retrievalResult = result;
+    ctx.products = result.products;
+    agentDurations.product_retriever = durationMs;
+  } catch {
+    ctx.products = [];
+  }
+
+  // ── Step 3: Health Profiling (enriches with form rankings) ─
   try {
     const { result, durationMs } = await timed("health_profiler", "Profile", ctx, onStep, () =>
       profileHealth(message, ctx.intent!)
@@ -124,8 +146,8 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
     agentDurations.health_profiler = durationMs;
   } catch {
     ctx.healthProfile = {
-      profile_summary: "General magnesium support.",
-      magnesium_forms_ranked: [{ form: "glycinate", relevance_score: 0.9, reason: "Well-tolerated and bioavailable" }],
+      profile_summary: retrievalResult.healthSummary || "General magnesium support.",
+      magnesium_forms_ranked: [{ form: "glycinate", relevance_score: 0.9, reason: "Well-tolerated" }],
       contraindication_flags: ["none"],
       dosage_range_mg: { min: 200, max: 400 },
       absorption_priority: "standard",
@@ -133,26 +155,20 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
     };
   }
 
-  // ── Step 3: Product Retrieval (MCP) ───────────────────────
-  try {
-    const { result, durationMs } = await timed("product_retriever", "Products", ctx, onStep, () =>
-      retrieveProducts(ctx.healthProfile!)
-    );
-    ctx.products = result;
-    agentDurations.product_retriever = durationMs;
-  } catch {
-    ctx.products = [];
-  }
-
-  // ── Step 4: Embedding Matching ────────────────────────────
+  // ── Step 4: Embedding re-ranking ──────────────────────────
   try {
     const { result, durationMs } = await timed("embedding_matcher", "Match", ctx, onStep, () =>
-      matchProducts(message, ctx.products!, ctx.healthProfile!)
+      matchProducts(message, ctx.products!)
     );
     ctx.recommendedProducts = result;
     agentDurations.embedding_matcher = durationMs;
   } catch {
-    ctx.recommendedProducts = [];
+    ctx.recommendedProducts = ctx.products?.slice(0, 3).map((p, i) => ({
+      ...p,
+      matchScore: 1 - i * 0.1,
+      matchReasons: [p.whyRecommended],
+      relevanceRank: i + 1,
+    })) ?? [];
   }
 
   // ── Step 5: Contraindication Check ───────────────────────
@@ -199,13 +215,15 @@ export async function runPipeline(opts: RunPipelineOptions): Promise<PipelineRes
         ctx.recommendedProducts!,
         ctx.safetyCheck!,
         ctx.dosagePlan!,
-        history
+        history,
+        retrievalResult.healthSummary
       )
     );
     ctx.response = result;
     agentDurations.response_composer = durationMs;
   } catch {
-    ctx.response = "I'd be happy to help you find the right magnesium supplement. Could you tell me more about your specific health goals?";
+    ctx.response =
+      "I would be happy to help you find the right magnesium supplement. Could you tell me more about your specific health goals?";
   }
 
   // ── Step 8: Follow-up Generation ─────────────────────────

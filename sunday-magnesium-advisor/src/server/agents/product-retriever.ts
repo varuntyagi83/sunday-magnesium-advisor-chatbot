@@ -1,31 +1,39 @@
-import { queryProducts } from "../mcp/client.js";
+import { recoFastPath } from "../mcp/client.js";
+import { mapToMCPProduct, RecoFastPathResult } from "../mcp/types.js";
 import { MCPProduct } from "../products/types.js";
-import { HealthProfile } from "../types/pipeline.js";
 import { createLogger } from "../logger.js";
 
 const logger = createLogger("product-retriever");
 
-export async function retrieveProducts(profile: HealthProfile): Promise<MCPProduct[]> {
-  const topForm = profile.magnesium_forms_ranked[0];
+export interface ProductRetrievalResult {
+  products: MCPProduct[];
+  healthSummary: string;
+  magnesiumBackground: string;
+  category: string;
+  mcpResult: RecoFastPathResult;
+}
 
+export async function retrieveProducts(userMessage: string): Promise<ProductRetrievalResult> {
   try {
-    const result = await queryProducts({
-      category: "magnesium",
-      form: topForm?.form,
-      minMg: profile.dosage_range_mg.min,
-      locale: "en",
-      limit: 8,
-    });
+    const result = await recoFastPath(userMessage);
 
-    if (result.products.length < 3) {
-      // Broaden query if few results
-      const broader = await queryProducts({ category: "magnesium", locale: "en", limit: 8 });
-      return broader.products;
-    }
+    const products = (result.recommendations ?? []).map(mapToMCPProduct);
 
-    return result.products;
+    return {
+      products,
+      healthSummary: result.health_benefits_summary ?? "",
+      magnesiumBackground: result.magnesium_background ?? "",
+      category: result.category ?? "",
+      mcpResult: result,
+    };
   } catch (err) {
     logger.warn({ err }, "Product retriever failed — returning empty");
-    return [];
+    return {
+      products: [],
+      healthSummary: "",
+      magnesiumBackground: "",
+      category: "",
+      mcpResult: { success: false, is_valid: false, recommendations: [] },
+    };
   }
 }

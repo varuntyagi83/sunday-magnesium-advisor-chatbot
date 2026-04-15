@@ -4,7 +4,7 @@ import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
 import { config } from "./config.js";
 import { createLogger } from "./logger.js";
-import { testMcpConnection, queryProducts } from "./mcp/client.js";
+import { testMcpConnection } from "./mcp/client.js";
 import { getEmbeddingsStatus, initEmbeddings } from "./embeddings/reader.js";
 import { runPipeline } from "./pipeline/orchestrator.js";
 import { ChatRequestSchema } from "./types/pipeline.js";
@@ -124,7 +124,8 @@ app.post("/api/chat/stream", async (req, res) => {
 // ── Products cache endpoint ───────────────────────────────────
 app.get("/api/products/magnesium", async (_req, res) => {
   try {
-    const result = await queryProducts({ category: "magnesium", limit: 20 });
+    const { recoFastPath } = await import("./mcp/client.js");
+    const result = await recoFastPath("general magnesium supplement");
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: "Could not fetch products" });
