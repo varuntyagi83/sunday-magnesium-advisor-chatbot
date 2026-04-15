@@ -258,7 +258,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
           <p style={{ fontWeight: 600, fontSize: 13, color: "var(--bark)", margin: "0 0 8px 0" }}>
             Are these a good fit — or do you have special preferences?
           </p>
-          {availableFormPills.length > 0 && (
+          {presentForms.size > 1 && availableFormPills.length > 0 && (
             <>
               <p style={{ fontSize: 10.5, color: "var(--stone)", textTransform: "uppercase", letterSpacing: "0.08em", margin: "0 0 8px 0" }}>
                 Try a different form
