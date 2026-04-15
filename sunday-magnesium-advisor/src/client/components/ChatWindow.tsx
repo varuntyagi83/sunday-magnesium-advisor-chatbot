@@ -82,8 +82,10 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
   const presentForms = new Set(
     (lastMsg?.products ?? []).map((p) => normalize(p.formFactor || p.form || ""))
   );
+  // Only show pills for forms that ARE in the recommendations (not alternatives).
+  // Multiple forms → let user pick their preference among what's actually available.
   const availableFormPills = FORM_PILLS.filter(
-    ({ label }) => !presentForms.has(normalize(label))
+    ({ label }) => presentForms.has(normalize(label))
   );
 
   return (
