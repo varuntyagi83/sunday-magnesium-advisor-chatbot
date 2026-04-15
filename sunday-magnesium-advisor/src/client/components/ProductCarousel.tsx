@@ -1,12 +1,32 @@
 import { useState, useRef, useEffect } from "react";
 import { RecommendedProduct } from "../hooks/useChat.js";
 
+const PC_UI = {
+  de: {
+    intro: "Hier sind einige Produkte, die gut zu Ihnen passen könnten:",
+    seeMore: "Mehr erfahren",
+    whyFits: "Warum es passt:",
+    ingredients: "Inhaltsstoffe:",
+    note: "Hinweis:",
+  },
+  en: {
+    intro: "Here are some products that could be a great fit for you:",
+    seeMore: "See More",
+    whyFits: "Why this fits:",
+    ingredients: "Ingredients:",
+    note: "Note:",
+  },
+} as const;
+type PCLocale = keyof typeof PC_UI;
+
 interface Props {
   products: RecommendedProduct[];
+  locale?: PCLocale;
   onClickTrack?: (product: RecommendedProduct) => void;
 }
 
-export function ProductCarousel({ products, onClickTrack }: Props) {
+export function ProductCarousel({ products, locale = "de", onClickTrack }: Props) {
+  const t = PC_UI[locale];
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const [hasOverflow, setHasOverflow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -35,7 +55,7 @@ export function ProductCarousel({ products, onClickTrack }: Props) {
   return (
     <div style={{ marginTop: 12 }}>
       <div style={{ fontSize: 13, color: "var(--stone)", marginBottom: 10, fontStyle: "italic" }}>
-        Here are some products that could be a great fit for you:
+        {t.intro}
       </div>
 
       <div style={{ position: "relative" }}>
@@ -77,6 +97,7 @@ export function ProductCarousel({ products, onClickTrack }: Props) {
               expanded={expandedIdx === i}
               onToggle={() => setExpandedIdx(expandedIdx === i ? null : i)}
               onClickTrack={onClickTrack}
+              t={t}
             />
           ))}
           <div style={{ minWidth: 4, flexShrink: 0 }} />
@@ -117,13 +138,14 @@ export function ProductCarousel({ products, onClickTrack }: Props) {
 }
 
 function ProductCard({
-  p, cardWidth, expanded, onToggle, onClickTrack,
+  p, cardWidth, expanded, onToggle, onClickTrack, t,
 }: {
   p: RecommendedProduct;
   cardWidth: number;
   expanded: boolean;
   onToggle: () => void;
   onClickTrack?: (p: RecommendedProduct) => void;
+  t: typeof PC_UI[PCLocale];
 }) {
   return (
     <div style={{
@@ -200,7 +222,7 @@ function ProductCard({
             onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "var(--gold-dark)")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "var(--gold)")}
           >
-            See More
+            {t.seeMore}
           </a>
           {(p.whyRecommended || p.cautions) && (
             <button
@@ -231,13 +253,13 @@ function ProductCard({
         }}>
           {p.whyRecommended && (
             <p style={{ marginBottom: 6 }}>
-              <strong>Why this fits:</strong>{" "}
+              <strong>{t.whyFits}</strong>{" "}
               <span style={{ color: "var(--stone)" }}>{p.whyRecommended}</span>
             </p>
           )}
           {p.activeIngredients && (
             <p style={{ marginBottom: 6 }}>
-              <strong>Ingredients:</strong>{" "}
+              <strong>{t.ingredients}</strong>{" "}
               <span style={{ color: "var(--stone)" }}>{p.activeIngredients}</span>
             </p>
           )}
@@ -246,7 +268,7 @@ function ProductCard({
               background: "white", borderRadius: 6,
               padding: "6px 10px", fontSize: 11, color: "var(--stone)",
             }}>
-              <strong>Note:</strong> {p.cautions}
+              <strong>{t.note}</strong> {p.cautions}
             </div>
           )}
         </div>

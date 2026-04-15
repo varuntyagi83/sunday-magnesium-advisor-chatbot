@@ -282,6 +282,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
             key={msg.id}
             message={msg}
             isLast={i === messages.length - 1}
+            locale={locale}
             onSuggestionClick={handleSend}
             onProductClick={handleProductClick}
           />

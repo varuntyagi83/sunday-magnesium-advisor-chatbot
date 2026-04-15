@@ -4,9 +4,26 @@ import { ProductCarousel } from "./ProductCarousel.js";
 import { SuggestionBubbles } from "./SuggestionBubbles.js";
 import lotusImg from "../assets/lotus.png";
 
+const MB_UI = {
+  de: {
+    delivered: "Zugestellt",
+    learnMore: "Mehr über diese Form erfahren",
+    hide: "Ausblenden",
+    metrics: "Performance-Metriken",
+  },
+  en: {
+    delivered: "Delivered",
+    learnMore: "Learn more about this form",
+    hide: "Hide",
+    metrics: "Performance Metrics",
+  },
+} as const;
+type MBLocale = keyof typeof MB_UI;
+
 interface Props {
   message: Message;
   isLast: boolean;
+  locale?: MBLocale;
   onSuggestionClick: (text: string) => void;
   onProductClick?: (product: RecommendedProduct) => void;
 }
@@ -27,7 +44,8 @@ function renderContent(text: string) {
   });
 }
 
-export function MessageBubble({ message, isLast, onSuggestionClick, onProductClick }: Props) {
+export function MessageBubble({ message, isLast, locale = "de", onSuggestionClick, onProductClick }: Props) {
+  const t = MB_UI[locale];
   const isUser = message.role === "user";
   const [showLearnMore, setShowLearnMore] = useState(false);
   const [showMetrics, setShowMetrics] = useState(false);
@@ -48,7 +66,7 @@ export function MessageBubble({ message, isLast, onSuggestionClick, onProductCli
             {message.content}
           </div>
           <div style={{ fontSize: 11, color: "var(--stone)", textAlign: "right", marginTop: 4 }}>
-            Delivered
+            {t.delivered}
           </div>
         </div>
       </div>
@@ -95,7 +113,7 @@ export function MessageBubble({ message, isLast, onSuggestionClick, onProductCli
                   }}
                 >
                   <span style={{ fontSize: 11 }}>►</span>
-                  {showLearnMore ? "Hide" : "Learn more about this form"}
+                  {showLearnMore ? t.hide : t.learnMore}
                 </button>
                 {showLearnMore && (
                   <div style={{
@@ -113,7 +131,7 @@ export function MessageBubble({ message, isLast, onSuggestionClick, onProductCli
 
         {/* Product carousel */}
         {message.products && message.products.length > 0 && (
-          <ProductCarousel products={message.products} onClickTrack={onProductClick} />
+          <ProductCarousel products={message.products} onClickTrack={onProductClick} locale={locale} />
         )}
 
         {/* Performance Metrics collapsible */}
@@ -129,7 +147,7 @@ export function MessageBubble({ message, isLast, onSuggestionClick, onProductCli
               }}
             >
               <span style={{ fontSize: 11 }}>►</span>
-              {showMetrics ? "Hide" : "Performance Metrics"}
+              {showMetrics ? t.hide : t.metrics}
             </button>
             {showMetrics && (
               <div style={{
