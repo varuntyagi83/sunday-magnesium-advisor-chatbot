@@ -28,6 +28,11 @@ const UI = {
     changeMind: "Meinung ändern",
     formLabels: { capsule: "Kapsel", tablet: "Tablette", powder: "Pulver", liquid: "Flüssig", gummy: "Gummibärchen" } as Record<string, string>,
     formMsg: (label: string) => `Ich bevorzuge Magnesium in ${label}form`,
+    menu: {
+      transcript: "Transkript herunterladen",
+      privacy: "Datenschutz",
+      endChat: "Chat beenden",
+    },
   },
   en: {
     greeting: "Hello 👋 I am your Sunday Natural Advisor. I can help you discover the best magnesium for you! 🌿",
@@ -47,6 +52,11 @@ const UI = {
     changeMind: "Change my mind",
     formLabels: { capsule: "Capsule", tablet: "Tablet", powder: "Powder", liquid: "Liquid", gummy: "Gummy" } as Record<string, string>,
     formMsg: (label: string) => `I prefer ${label} form magnesium`,
+    menu: {
+      transcript: "Download transcript",
+      privacy: "Privacy policy",
+      endChat: "End chat",
+    },
   },
 };
 
@@ -72,7 +82,21 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
   const [input, setInput] = useState("");
   const [refinementInput, setRefinementInput] = useState("");
   const [hasRefined, setHasRefined] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [menuOpen]);
   const { state: consentState, accept: acceptConsent, decline: declineConsent } = useConsent();
 
   const t = UI[locale];
@@ -110,6 +134,24 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
         payload: { productId: product.id, productSlug: product.slug, productUrl: product.url },
       }),
     }).catch(() => {});
+  };
+
+  const downloadTranscript = () => {
+    const lines = messages.map((m) => {
+      const role = m.role === "user"
+        ? (locale === "de" ? "Sie" : "You")
+        : "Sunday Natural";
+      const time = m.timestamp.toLocaleTimeString(locale === "de" ? "de-DE" : "en-GB", { hour: "2-digit", minute: "2-digit" });
+      return `[${time}] ${role}:\n${m.content}`;
+    });
+    const blob = new Blob([lines.join("\n\n")], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `sunday-natural-chat-${new Date().toISOString().slice(0, 10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setMenuOpen(false);
   };
 
   const lastMsg = messages[messages.length - 1];
@@ -211,6 +253,75 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
                 {lang.toUpperCase()}
               </button>
             ))}
+          </div>
+
+          {/* Kebab menu */}
+          <div ref={menuRef} style={{ position: "relative" }}>
+            <button
+              onClick={() => setMenuOpen(v => !v)}
+              title="Menu"
+              style={{
+                width: 30, height: 30, borderRadius: "50%",
+                background: menuOpen ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,0.2)",
+                border: "none", color: "white", cursor: "pointer", fontSize: 18,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                letterSpacing: 0, lineHeight: 1,
+              }}
+            >
+              ⋮
+            </button>
+            {menuOpen && (
+              <div style={{
+                position: "absolute", top: 36, right: 0,
+                background: "white", borderRadius: 10,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+                minWidth: 200, zIndex: 20,
+                overflow: "hidden",
+                animation: "fadeUp 0.15s ease",
+              }}>
+                {[
+                  {
+                    icon: "⬇", label: t.menu.transcript,
+                    action: downloadTranscript,
+                    disabled: messages.length === 0,
+                  },
+                  {
+                    icon: "🔒", label: t.menu.privacy,
+                    action: () => { window.open("https://www.sunday.de/en/privacy-policy.html", "_blank"); setMenuOpen(false); },
+                    disabled: false,
+                  },
+                  {
+                    icon: "✕", label: t.menu.endChat,
+                    action: () => { setMenuOpen(false); handleReset(); },
+                    disabled: false,
+                    danger: true,
+                  },
+                ].map(({ icon, label, action, disabled, danger }) => (
+                  <button
+                    key={label}
+                    onClick={action}
+                    disabled={disabled}
+                    style={{
+                      width: "100%", textAlign: "left",
+                      background: "none", border: "none",
+                      padding: "11px 16px",
+                      fontSize: 13, fontFamily: "Newsreader, serif",
+                      color: disabled ? "var(--stone)" : danger ? "#c0392b" : "var(--bark)",
+                      cursor: disabled ? "default" : "pointer",
+                      display: "flex", alignItems: "center", gap: 10,
+                      borderBottom: "1px solid var(--border)",
+                      opacity: disabled ? 0.45 : 1,
+                      transition: "background 0.1s",
+                    }}
+                    onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLButtonElement).style.background = "var(--warm)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "none"; }}
+                  >
+                    <span style={{ fontSize: 14, width: 18, textAlign: "center" }}>{icon}</span>
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <button
