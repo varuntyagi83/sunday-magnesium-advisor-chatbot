@@ -67,7 +67,7 @@ Create `.env` with your actual keys:
 ```bash
 cat > .env << 'EOF'
 GEMINI_API_KEY=your-actual-gemini-key
-GEMINI_MODEL_FAST=gemini-2.0-flash
+GEMINI_MODEL_FAST=gemini-2.5-flash
 GEMINI_MODEL_REASONING=gemini-2.5-pro
 MCP_ENDPOINT_URL=https://your-mcp-endpoint-url/v1
 MCP_AUTH_TOKEN=your-mcp-bearer-token
@@ -181,7 +181,7 @@ This is the biggest phase. Split across sessions if context gets heavy.
 
 **Session A — Intent + Health Profiler:**
 ```
-Build the intent-classifier agent using Gemini 2.0 Flash and the health-profiler
+Build the intent-classifier agent using Gemini 2.5 Flash and the health-profiler
 agent using Gemini 2.5 Pro. Both in src/server/agents/. Build the generic
 agent-runner in src/server/pipeline/agent-runner.ts that calls the Gemini API.
 Use responseMimeType: "application/json" to force clean JSON output.
@@ -320,7 +320,7 @@ This phase is large. If context gets heavy, split into sub-sessions:
 
 ```
 Read CLAUDE.md. Review and harden all Gemini API calls. Ensure:
-- Intent classifier uses gemini-2.0-flash with responseMimeType application/json
+- Intent classifier uses gemini-2.5-flash with responseMimeType application/json
 - All reasoning agents use gemini-2.5-pro with correct temperatures
 - Response composer uses text/plain, not JSON
 - Query embedding uses the same model as our pipeline (EMBEDDING_MODEL env var)
@@ -413,7 +413,7 @@ magnesium products. Use it when MCP_ENDPOINT_URL is not set or unreachable.
 Check:
 ```bash
 # Test Gemini API directly:
-curl -X POST "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=YOUR_KEY" \
+curl -X POST "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{"contents":[{"parts":[{"text":"Hello"}]}]}'
 ```

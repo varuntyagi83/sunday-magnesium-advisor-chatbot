@@ -117,7 +117,7 @@ src/
 
 ## Architecture Rules
 1. ALL agents run on Gemini. Single LLM provider. No Anthropic/Claude API, no OpenAI.
-2. Use gemini-2.0-flash for intent classification (fast, structured JSON). Use gemini-2.5-pro for reasoning agents (health profiler, safety, dosage, composer, follow-ups).
+2. Use gemini-2.5-flash for intent classification (fast, structured JSON). Use gemini-2.5-pro for reasoning agents (health profiler, safety, dosage, composer, follow-ups).
 3. Product data comes ONLY from the custom MCP endpoint, never hardcoded
 4. Product URLs are built from the slug field returned by the MCP: https://www.sunday.de/en/{slug}.html
 5. All LLM calls happen server-side. Frontend NEVER touches API keys.
@@ -154,7 +154,7 @@ Use pnpm, Vite for frontend, Express for backend, both TypeScript.
 
 Create src/server/config.ts that loads all env vars with validation:
 - GEMINI_API_KEY (required — used for ALL agents + query embeddings)
-- GEMINI_MODEL_FAST ("gemini-2.0-flash", for intent classification)
+- GEMINI_MODEL_FAST ("gemini-2.5-flash", for intent classification)
 - GEMINI_MODEL_REASONING ("gemini-2.5-pro", for health profiler, safety, dosage, composer, follow-ups)
 - MCP_ENDPOINT_URL (required — our custom MCP, e.g. https://mcp.sundaynatural.internal/v1)
 - MCP_AUTH_TOKEN (required)
@@ -346,7 +346,7 @@ compute similarity against product embeddings, glycinate ranks highest.
 **Prompt for Claude Code:**
 ```
 Build all agents. ALL agents use GEMINI. No Anthropic/Claude API calls anywhere.
-Use gemini-2.0-flash for intent classification (fast, structured JSON output).
+Use gemini-2.5-flash for intent classification (fast, structured JSON output).
 Use gemini-2.5-pro for all reasoning agents (health profiler, safety, dosage, composer, follow-ups).
 
 1. src/server/pipeline/agent-runner.ts — Generic Gemini runner:
@@ -365,8 +365,8 @@ Use gemini-2.5-pro for all reasoning agents (health profiler, safety, dosage, co
    - Parse: data.candidates[0].content.parts[0].text
    - 1 retry on failure, log raw output on parse failure, return typed fallback
 
-2. src/server/agents/intent-classifier.ts — GEMINI 2.0 FLASH
-   - Model: gemini-2.0-flash (fast, cheap, great for classification)
+2. src/server/agents/intent-classifier.ts — GEMINI 2.5 FLASH
+   - Model: gemini-2.5-flash (fast, cheap, great for classification)
    - responseMimeType: "application/json"
    - temperature: 0.1
    - Output schema (UserIntent):
@@ -643,7 +643,7 @@ Ensure the Gemini integration is production-ready.
 1. src/server/agents/intent-classifier.ts — Full Gemini implementation:
 
    API call pattern:
-   POST https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent
+   POST https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent
    Header: x-goog-api-key: ${GEMINI_API_KEY}
    Header: Content-Type: application/json
 
@@ -676,7 +676,7 @@ Ensure the Gemini integration is production-ready.
    Model mismatch between query and product embeddings will produce garbage similarity scores.
 
 3. Cost optimization (all Gemini, single provider):
-   - Gemini 2.0 Flash for intent classification: ~$0.0001 per request
+   - Gemini 2.5 Flash for intent classification: ~$0.0001 per request
    - Gemini 2.5 Pro for reasoning agents (x5): ~$0.002 per request per agent
    - Total per pipeline run: ~$0.01-0.015 (cheaper than dual-provider approach)
    - Query embedding: negligible (~$0.00001 per query, one per user message)
@@ -935,7 +935,7 @@ CORS blocks unauthorized origins. test-embed.html still works end-to-end.
 ```bash
 # Required — Gemini API (single LLM provider for everything)
 GEMINI_API_KEY=AIzaSy-xxxxx
-GEMINI_MODEL_FAST=gemini-2.0-flash          # intent classification (fast, cheap, structured JSON)
+GEMINI_MODEL_FAST=gemini-2.5-flash          # intent classification (fast, cheap, structured JSON)
 GEMINI_MODEL_REASONING=gemini-2.5-pro       # health profiler, safety, dosage, composer, follow-ups
 
 # Required — Custom MCP Endpoint (your own, NOT supabase, NOT n8n)
@@ -1005,7 +1005,7 @@ Pipeline per message:
        │
        ▼
   ┌──────────────┐
-  │ 🎯 Intent     │ ← Gemini 2.0 Flash ($0.0001/req)
+  │ 🎯 Intent     │ ← Gemini 2.5 Flash ($0.0001/req)
   │   Classifier  │   Output: structured intent JSON
   └──────┬───────┘
          │ If follow_up_needed → short-circuit to composer
