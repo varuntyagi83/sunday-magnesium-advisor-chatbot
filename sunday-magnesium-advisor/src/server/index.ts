@@ -12,6 +12,7 @@ import { trackEvent } from "./tracking/tracker.js";
 
 const logger = createLogger("server");
 const app = express();
+app.set("trust proxy", 1); // Railway / Cloud Run sit behind a reverse proxy
 
 // ── Input sanitization ────────────────────────────────────────
 const MAX_MESSAGE_LENGTH = 500;
