@@ -77,11 +77,13 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
 
   // Only offer form pills for forms NOT already present in the recommendations.
   // e.g. if all products are capsules, don't show the Capsule pill — it's a false choice.
+  // Normalise to singular lowercase ("Capsules" → "capsule", "Tablets" → "tablet")
+  const normalize = (s: string) => s.toLowerCase().replace(/s$/, "");
   const presentForms = new Set(
-    (lastMsg?.products ?? []).map((p) => (p.formFactor || p.form || "").toLowerCase())
+    (lastMsg?.products ?? []).map((p) => normalize(p.formFactor || p.form || ""))
   );
   const availableFormPills = FORM_PILLS.filter(
-    ({ label }) => !presentForms.has(label.toLowerCase())
+    ({ label }) => !presentForms.has(normalize(label))
   );
 
   return (
