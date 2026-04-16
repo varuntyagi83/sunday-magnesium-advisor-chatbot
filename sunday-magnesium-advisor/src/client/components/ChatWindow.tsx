@@ -257,7 +257,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
 
                 {/* Privacy policy — real <a target="_blank"> so browser opens it natively */}
                 <a
-                  href="https://www.sunday.de/en/privacy-policy.html"
+                  href="https://www.sunday.de/datenschutz"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMenuOpen(false)}
