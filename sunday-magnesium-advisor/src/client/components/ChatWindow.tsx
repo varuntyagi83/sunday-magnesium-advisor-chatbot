@@ -83,6 +83,17 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
     }).catch(() => {});
   };
 
+  // Opens a URL in a new tab reliably from within the Shadow DOM IIFE context.
+  const openUrl = (url: string) => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   const downloadTranscript = () => {
     const lines = messages.map((m) => {
       const role = m.role === "user"
@@ -96,8 +107,10 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
     const a = document.createElement("a");
     a.href = url;
     a.download = `sunday-natural-chat-${new Date().toISOString().slice(0, 10)}.txt`;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
     setMenuOpen(false);
   };
 
@@ -234,7 +247,7 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
                   },
                   {
                     icon: "🔒", label: t.menu.privacy,
-                    action: () => { window.open("https://www.sunday.de/en/privacy-policy.html", "_blank"); setMenuOpen(false); },
+                    action: () => { openUrl("https://www.sunday.de/en/privacy-policy.html"); setMenuOpen(false); },
                     disabled: false,
                   },
                   {
