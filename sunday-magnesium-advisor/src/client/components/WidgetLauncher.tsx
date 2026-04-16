@@ -8,10 +8,9 @@ interface WidgetLauncherProps {
 
 export function WidgetLauncher({ apiUrl = "", locale = "en" }: WidgetLauncherProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasOpened, setHasOpened] = useState(false);
   const [resetKey, setResetKey] = useState(0);
 
-  const open = () => { setIsOpen(true); setHasOpened(true); };
+  const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
   const reset = () => setResetKey((k) => k + 1);
 
@@ -82,21 +81,6 @@ export function WidgetLauncher({ apiUrl = "", locale = "en" }: WidgetLauncherPro
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
             <path d="M3 4.5C3 3.12 4.12 2 5.5 2h15C21.88 2 23 3.12 23 4.5v11C23 16.88 21.88 18 20.5 18H9l-5 4.5V4.5z" fill="white"/>
           </svg>
-        )}
-        {/* Unread badge — shown after first open if panel is closed */}
-        {!isOpen && hasOpened && (
-          <span
-            style={{
-              position: "absolute",
-              top: 2,
-              right: 2,
-              width: 12,
-              height: 12,
-              borderRadius: "50%",
-              background: "#e85d4a",
-              border: "2px solid white",
-            }}
-          />
         )}
       </button>
     </div>
