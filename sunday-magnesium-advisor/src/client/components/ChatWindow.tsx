@@ -33,11 +33,16 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside.
+  // Must use composedPath() instead of contains() because e.target is retargeted
+  // to the shadow host when events cross the shadow boundary — contains() would
+  // always see clicks inside the shadow as "outside" and close the menu before
+  // the click event fires, swallowing anchor navigation and downloads.
   useEffect(() => {
     if (!menuOpen) return;
     const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      const path = e.composedPath();
+      if (menuRef.current && !path.includes(menuRef.current)) {
         setMenuOpen(false);
       }
     };
