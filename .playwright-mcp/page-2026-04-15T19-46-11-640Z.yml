@@ -1,0 +1,99 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Sunday Natural" [ref=e7]
+      - generic [ref=e8]: Sunday Natural
+    - button "↺" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e126]:
+      - generic [ref=e127]:
+        - generic [ref=e128]:
+          - generic [ref=e129]: 🎯
+          - generic [ref=e130]: Intent
+          - generic [ref=e131]: ✓
+        - generic [ref=e132]: ›
+      - generic [ref=e133]:
+        - generic [ref=e134]:
+          - generic [ref=e135]: 🧬
+          - generic [ref=e136]: Profile
+        - generic [ref=e137]: ›
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - generic [ref=e140]: 🔍
+          - generic [ref=e141]: Products
+        - generic [ref=e142]: ›
+      - generic [ref=e143]:
+        - generic [ref=e144]:
+          - generic [ref=e145]: 📊
+          - generic [ref=e146]: Match
+        - generic [ref=e147]: ›
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - generic [ref=e150]: 🛡️
+          - generic [ref=e151]: Safety
+        - generic [ref=e152]: ›
+      - generic [ref=e153]:
+        - generic [ref=e154]:
+          - generic [ref=e155]: ⚖️
+          - generic [ref=e156]: Dosage
+        - generic [ref=e157]: ›
+      - generic [ref=e158]:
+        - generic [ref=e159]:
+          - generic [ref=e160]: ✨
+          - generic [ref=e161]: Compose
+        - generic [ref=e162]: ›
+      - generic [ref=e164]:
+        - generic [ref=e165]: 💬
+        - generic [ref=e166]: Suggest
+    - generic [ref=e69]:
+      - generic [ref=e70]: What magnesium is best for muscle relaxation?
+      - generic [ref=e71]: Delivered
+    - generic [ref=e78]:
+      - img "Sunday Natural" [ref=e80]
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - text: It's wonderful you're exploring magnesium for muscle relaxation; it truly is a fantastic mineral for supporting normal muscle function. Based on your goal, I'd suggest Magnesium Taurate, as it's particularly well suited for muscle and heart tissue. This form combines magnesium with the amino acid taurine, which works synergistically to support healthy muscle function and relaxation. A great option for you would be our
+          - link "Magnesiumtaurat Pure" [ref=e83] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesiumtaurat-kapseln.html
+          - text: . You could take 150mg with lunch and another 150mg before bed for a total of 300mg daily. This approach helps ensure consistent support for your muscles throughout the day and into the evening. Remember, magnesium plays a vital role in how your muscles relax and function. I hope this helps you find the perfect support for your muscles! Please feel free to ask if you have any more questions.
+          - button "► Learn more about this form" [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: ►
+            - text: Learn more about this form
+        - generic [ref=e87]:
+          - generic [ref=e88]: "Here are some products that could be a great fit for you:"
+          - generic [ref=e89]:
+            - button "‹" [ref=e90] [cursor=pointer]
+            - generic [ref=e91]:
+              - generic [ref=e92]:
+                - img "Magnesium Active Calm" [ref=e93]
+                - generic [ref=e94]:
+                  - link "Magnesium Active Calm" [ref=e95] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-active-calm-komplex-kapseln.html
+                  - generic [ref=e96]:
+                    - text: €24.90
+                    - generic [ref=e97]: "| Capsules · 90 Kapseln"
+                  - link "See More" [ref=e98] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-active-calm-komplex-kapseln.html
+              - generic [ref=e99]:
+                - paragraph [ref=e100]:
+                  - strong [ref=e101]: "Why this is a great fit:"
+                  - text: This product combines Magnesium L-Threonat and Magnesium Acetyltaurat to provide a synergistic effect for the nervous system. It is specifically formulated to support mental relaxation and calm, which indirectly helps in reducing physical tension. This makes it an excellent choice for those looking to soothe both the mind and body simultaneously.
+                - generic [ref=e102]:
+                  - strong [ref=e103]: "Note:"
+                  - text: Do not exceed the recommended daily dosage. Consult a healthcare professional if you are pregnant, nursing, or taking medication.
+            - button "›" [ref=e104] [cursor=pointer]
+          - generic [ref=e105]:
+            - button [ref=e106] [cursor=pointer]
+            - button [ref=e107] [cursor=pointer]
+            - button [ref=e108] [cursor=pointer]
+        - button "► Performance Metrics" [ref=e110] [cursor=pointer]:
+          - generic [ref=e111]: ►
+          - text: Performance Metrics
+    - generic [ref=e168]:
+      - generic [ref=e169]: I prefer capsule form magnesium
+      - generic [ref=e170]: Delivered
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - textbox "Ask me about magnesium..." [disabled] [ref=e24]
+      - button "›" [disabled] [ref=e25]
+    - generic [ref=e26]: ⚡ Powered by Sunday Natural

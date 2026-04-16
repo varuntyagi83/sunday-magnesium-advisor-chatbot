@@ -1,0 +1,24 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🌿
+      - generic [ref=e7]:
+        - generic [ref=e8]: Magnesium Advisor
+        - generic [ref=e9]: Sunday Natural
+    - button "Debug" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e28]: I have trouble falling asleep and staying asleep
+    - generic [ref=e29]:
+      - generic [ref=e30]: 🌿
+      - generic [ref=e31]:
+        - generic [ref=e32]: Sunday Natural Advisor
+        - generic [ref=e33]: Are you looking for a specific form of magnesium (e.g., capsules, powder) or do you have any dietary restrictions?
+        - generic [ref=e34]:
+          - button "I have trouble sleeping" [ref=e35] [cursor=pointer]
+          - button "My muscles cramp after exercise" [ref=e36] [cursor=pointer]
+          - button "I feel stressed" [ref=e37] [cursor=pointer]
+          - button "General magnesium supplement" [ref=e38] [cursor=pointer]
+  - generic [ref=e22]:
+    - textbox "Describe your health goals or symptoms..." [ref=e23]
+    - button "↑" [disabled] [ref=e24]
+  - generic [ref=e25]: This advisor uses AI for informational purposes only. Always consult a healthcare professional before starting supplements.

@@ -1,0 +1,76 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Sunday Natural" [ref=e7]
+      - generic [ref=e8]: Sunday Natural
+    - button "↺" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e69]:
+      - generic [ref=e70]: I need magnesium for better sleep
+      - generic [ref=e71]: Delivered
+    - generic [ref=e78]:
+      - img "Sunday Natural" [ref=e80]
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - text: It's wonderful you're exploring magnesium for better sleep. Many find it incredibly helpful! Magnesium glycinate is a fantastic choice, often called the "nervous system" magnesium, precisely because it supports normal nervous system and psychological function, which can be so beneficial as you wind down. It’s known for being gentle and highly absorbable. For your evening routine, I'd suggest our
+          - link "Magnesium Glycinat Pure" [ref=e83] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - text: . Taking 150mg with dinner and another 150mg before bed could be ideal. This pure form is excellent for fostering a sense of calm and preparing your body for a more restful night. If you're also considering melatonin, our
+          - link "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e84] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-sleep-1mg.html
+          - text: offers a targeted combination to help regulate your sleep cycle. Magnesium generally contributes to normal muscle function and can help reduce tiredness and fatigue, which are all great for supporting a good night's rest. Please feel free to ask if you have any more questions!
+          - button "► Learn more about this form" [ref=e86] [cursor=pointer]:
+            - generic [ref=e87]: ►
+            - text: Learn more about this form
+        - generic [ref=e88]:
+          - generic [ref=e89]: "Here are some products that could be a great fit for you:"
+          - generic [ref=e90]:
+            - generic [ref=e91]:
+              - button "Magnesium Glycinat Pure Magnesium Glycinat Pure €10.90 · Capsules · 120 Kapseln ›" [ref=e92] [cursor=pointer]:
+                - img "Magnesium Glycinat Pure" [ref=e93]
+                - generic [ref=e94]:
+                  - generic [ref=e95]: Magnesium Glycinat Pure
+                  - generic [ref=e96]:
+                    - text: €10.90
+                    - generic [ref=e97]: · Capsules · 120 Kapseln
+                - generic [ref=e98]: ›
+              - generic [ref=e99]:
+                - link "See More" [ref=e101] [cursor=pointer]:
+                  - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+                - generic [ref=e102]:
+                  - paragraph [ref=e103]:
+                    - strong [ref=e104]: "Why this is a great fit:"
+                    - text: Magnesium glycinate is highly bioavailable and specifically recognized for its calming effects on the nervous system. This pure form is an excellent choice for those looking to support relaxation and mental well-being before bedtime. By promoting a sense of calm, it helps prepare the body for a more restful and restorative sleep cycle.
+                  - generic [ref=e105]:
+                    - strong [ref=e106]: "Note:"
+                    - text: Do not exceed the recommended daily intake. Consult a healthcare professional if you are pregnant, nursing, or taking medication.
+            - button "Melatonin Duo Plus Magnesiumglycinat Depot Melatonin Duo Plus Magnesiumglycinat Depot €9.90 · Capsules · 60 Kapseln ›" [ref=e108] [cursor=pointer]:
+              - img "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e109]
+              - generic [ref=e110]:
+                - generic [ref=e111]: Melatonin Duo Plus Magnesiumglycinat Depot
+                - generic [ref=e112]:
+                  - text: €9.90
+                  - generic [ref=e113]: · Capsules · 60 Kapseln
+              - generic [ref=e114]: ›
+        - button "► Performance Metrics" [ref=e116] [cursor=pointer]:
+          - generic [ref=e117]: ►
+          - text: Performance Metrics
+        - generic [ref=e118]:
+          - button "What's the best dosage for sleep?" [ref=e119] [cursor=pointer]
+          - button "How does glycinate help with sleep?" [ref=e120] [cursor=pointer]
+          - button "Are there other forms good for sleep?" [ref=e121] [cursor=pointer]
+  - generic [ref=e122]:
+    - paragraph [ref=e123]: Are these a good fit — or do you have special preferences?
+    - paragraph [ref=e124]: Product Form
+    - generic [ref=e125]:
+      - button "💊 Capsule" [ref=e126] [cursor=pointer]
+      - button "🔵 Tablet" [ref=e127] [cursor=pointer]
+      - button "🥄 Powder" [ref=e128] [cursor=pointer]
+      - button "💧 Liquid" [ref=e129] [cursor=pointer]
+      - button "🍬 Gummy" [ref=e130] [cursor=pointer]
+    - textbox "e.g. high dose, vegan, powder only..." [ref=e131]
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - textbox "Ask me about magnesium..." [ref=e24]
+      - button "›" [disabled] [ref=e25]
+    - generic [ref=e26]: ⚡ Powered by Sunday Natural

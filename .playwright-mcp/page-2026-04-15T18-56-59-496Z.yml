@@ -1,0 +1,49 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🌿
+      - generic [ref=e7]:
+        - generic [ref=e8]: Magnesium Advisor
+        - generic [ref=e9]: Sunday Natural
+    - button "Debug" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e69]: I have trouble falling asleep and staying asleep
+    - generic [ref=e76]:
+      - generic [ref=e77]: 🌿
+      - generic [ref=e78]:
+        - generic [ref=e79]: Sunday Natural Advisor
+        - generic [ref=e80]:
+          - text: It sounds like you are looking for gentle support to help you drift off and enjoy more restful nights. Magnesium is a wonderful mineral that plays a key role in both psychological and nervous system function, which can be so helpful when sleep feels elusive. Many find that incorporating magnesium can truly make a difference in preparing the body and mind for rest. For supporting your sleep, I would suggest our
+          - link "Magnesium Glycinat Pure" [ref=e81] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - text: . This form is highly bioavailable and very gentle on your system, helping to calm your nervous system and promote relaxation, which is ideal for encouraging a peaceful night's sleep. Another excellent option, especially if you find yourself waking during the night, is our
+          - link "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e82] [cursor=pointer]:
+            - /url: https://www.de/magnesium-sleep-1mg.html
+          - text: . This innovative complex combines magnesium with melatonin and hop extract, designed to support both falling asleep and staying asleep through its steady release. Always remember that magnesium can beautifully complement your evening routine, helping you feel more relaxed. If you have any more questions about how to best integrate these into your day, please do not hesitate to ask!
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - img "Magnesium Glycinat Pure" [ref=e85]
+            - generic [ref=e86]: glycinate
+            - generic [ref=e87]: Magnesium Glycinat Pure
+            - generic [ref=e88]: 75mg · EUR 10.90
+            - generic [ref=e89]: Magnesium glycinate is highly bioavailable and well-tolerated, making it an excellent choice for supporting the nervous system and promoting relaxation. By helping to calm the mind and body, it can assist in creating the physiological conditions necessary for falling asleep more easily. This pure formulation provides a gentle, effective dose to support your nightly rest without unnecessary additives.
+            - generic [ref=e93]: 100% match
+            - link "View Product" [ref=e94] [cursor=pointer]:
+              - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - generic [ref=e95]:
+            - img "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e96]
+            - generic [ref=e97]: glycinate
+            - generic [ref=e98]: Melatonin Duo Plus Magnesiumglycinat Depot
+            - generic [ref=e99]: 0mg · EUR 9.90
+            - generic [ref=e100]: This complex is specifically designed to support both falling asleep and staying asleep through its dual-release mechanism. It combines magnesium with hop extract and melatonin to help regulate your sleep-wake cycle effectively. The depot formulation ensures a steady release of nutrients, which is ideal for those who struggle with waking up during the night.
+            - generic [ref=e104]: 85% match
+            - link "View Product" [ref=e105] [cursor=pointer]:
+              - /url: https://www.sunday.de/magnesium-sleep-1mg.html
+        - generic [ref=e106]:
+          - button "How much should I take for sleep?" [ref=e107] [cursor=pointer]
+          - button "Is glycinate the best form for sleep?" [ref=e108] [cursor=pointer]
+          - button "What time of day should I take it?" [ref=e109] [cursor=pointer]
+  - generic [ref=e22]:
+    - textbox "Describe your health goals or symptoms..." [ref=e23]
+    - button "↑" [disabled] [ref=e24]
+  - generic [ref=e25]: This advisor uses AI for informational purposes only. Always consult a healthcare professional before starting supplements.

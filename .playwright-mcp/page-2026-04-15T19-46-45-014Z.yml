@@ -1,0 +1,107 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Sunday Natural" [ref=e7]
+      - generic [ref=e8]: Sunday Natural
+    - button "↺" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e69]:
+      - generic [ref=e70]: What magnesium is best for muscle relaxation?
+      - generic [ref=e71]: Delivered
+    - generic [ref=e78]:
+      - img "Sunday Natural" [ref=e80]
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - text: It's wonderful you're exploring magnesium for muscle relaxation; it truly is a fantastic mineral for supporting normal muscle function. Based on your goal, I'd suggest Magnesium Taurate, as it's particularly well suited for muscle and heart tissue. This form combines magnesium with the amino acid taurine, which works synergistically to support healthy muscle function and relaxation. A great option for you would be our
+          - link "Magnesiumtaurat Pure" [ref=e83] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesiumtaurat-kapseln.html
+          - text: . You could take 150mg with lunch and another 150mg before bed for a total of 300mg daily. This approach helps ensure consistent support for your muscles throughout the day and into the evening. Remember, magnesium plays a vital role in how your muscles relax and function. I hope this helps you find the perfect support for your muscles! Please feel free to ask if you have any more questions.
+          - button "► Learn more about this form" [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: ►
+            - text: Learn more about this form
+        - generic [ref=e87]:
+          - generic [ref=e88]: "Here are some products that could be a great fit for you:"
+          - generic [ref=e89]:
+            - button "‹" [ref=e90] [cursor=pointer]
+            - generic [ref=e91]:
+              - generic [ref=e92]:
+                - img "Magnesium Active Calm" [ref=e93]
+                - generic [ref=e94]:
+                  - link "Magnesium Active Calm" [ref=e95] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-active-calm-komplex-kapseln.html
+                  - generic [ref=e96]:
+                    - text: €24.90
+                    - generic [ref=e97]: "| Capsules · 90 Kapseln"
+                  - link "See More" [ref=e98] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-active-calm-komplex-kapseln.html
+              - generic [ref=e99]:
+                - paragraph [ref=e100]:
+                  - strong [ref=e101]: "Why this is a great fit:"
+                  - text: This product combines Magnesium L-Threonat and Magnesium Acetyltaurat to provide a synergistic effect for the nervous system. It is specifically formulated to support mental relaxation and calm, which indirectly helps in reducing physical tension. This makes it an excellent choice for those looking to soothe both the mind and body simultaneously.
+                - generic [ref=e102]:
+                  - strong [ref=e103]: "Note:"
+                  - text: Do not exceed the recommended daily dosage. Consult a healthcare professional if you are pregnant, nursing, or taking medication.
+            - button "›" [ref=e104] [cursor=pointer]
+          - generic [ref=e105]:
+            - button [ref=e106] [cursor=pointer]
+            - button [ref=e107] [cursor=pointer]
+            - button [ref=e108] [cursor=pointer]
+        - button "► Performance Metrics" [ref=e110] [cursor=pointer]:
+          - generic [ref=e111]: ►
+          - text: Performance Metrics
+    - generic [ref=e168]:
+      - generic [ref=e169]: I prefer capsule form magnesium
+      - generic [ref=e170]: Delivered
+    - generic [ref=e177]:
+      - img "Sunday Natural" [ref=e179]
+      - generic [ref=e180]:
+        - generic [ref=e181]:
+          - text: It's great you prefer capsules; they're such a convenient way to ensure you're getting your daily magnesium! Given your preference, I'd love to tell you about our Magnesium Komplex range, which is specifically designed for easy oral intake and optimal absorption. These complexes combine various magnesium forms to support diverse needs like normal muscle function and reducing tiredness. For a comprehensive approach in capsule form, I highly recommend our
+          - link "Magnesium Komplex 9 Ultra" [ref=e182] [cursor=pointer]:
+            - /url: https://www.sunday.de/mg-komplex-9-ultra-kapseln.html
+          - text: . It offers a broad spectrum of nine organic magnesium forms, ensuring excellent bioavailability. Alternatively, our
+          - link "Magnesium Komplex 11 Ultra" [ref=e183] [cursor=pointer]:
+            - /url: https://www.sunday.de/mg-komplex-11-ultra-kapseln.html
+          - text: is another fantastic capsule option, blending eleven distinct magnesium sources for high potency and broad support. You could take 200mg of either with dinner to support your body's needs. Magnesium in capsule form is a wonderful way to supplement this essential mineral. If you have any more questions, please don't hesitate to ask!
+          - button "► Learn more about this form" [ref=e185] [cursor=pointer]:
+            - generic [ref=e186]: ►
+            - text: Learn more about this form
+        - generic [ref=e187]:
+          - generic [ref=e188]: "Here are some products that could be a great fit for you:"
+          - generic [ref=e189]:
+            - button "‹" [ref=e190] [cursor=pointer]
+            - generic [ref=e191]:
+              - generic [ref=e192]:
+                - img "Magnesium Komplex 4" [ref=e193]
+                - generic [ref=e194]:
+                  - link "Magnesium Komplex 4" [ref=e195] [cursor=pointer]:
+                    - /url: https://www.sunday.de/mg-4-komplex.html
+                  - generic [ref=e196]:
+                    - text: €14.90
+                    - generic [ref=e197]: "| Capsules · 180 Kapseln"
+                  - link "See More" [ref=e198] [cursor=pointer]:
+                    - /url: https://www.sunday.de/mg-4-komplex.html
+              - generic [ref=e199]:
+                - paragraph [ref=e200]:
+                  - strong [ref=e201]: "Why this is a great fit:"
+                  - text: This high-dose complex focuses on four essential magnesium forms to provide effective support for energy metabolism and muscle relaxation. The capsule format is easy to swallow and ensures consistent delivery of the active ingredients. It is a reliable choice for individuals looking for a straightforward, potent magnesium supplement.
+                - generic [ref=e202]:
+                  - strong [ref=e203]: "Note:"
+                  - text: High doses of magnesium may have a laxative effect in some individuals. If you experience digestive discomfort, reduce the dosage.
+            - button "›" [ref=e204] [cursor=pointer]
+          - generic [ref=e205]:
+            - button [ref=e206] [cursor=pointer]
+            - button [ref=e207] [cursor=pointer]
+            - button [ref=e208] [cursor=pointer]
+        - button "► Performance Metrics" [ref=e210] [cursor=pointer]:
+          - generic [ref=e211]: ►
+          - text: Performance Metrics
+        - generic [ref=e212]:
+          - button "What's the best dosage for magnesium capsules?" [ref=e213] [cursor=pointer]
+          - button "How does glycinate compare to other capsule forms?" [ref=e214] [cursor=pointer]
+          - button "Are there any side effects with magnesium capsules?" [ref=e215] [cursor=pointer]
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - textbox "Ask me about magnesium..." [ref=e24]
+      - button "›" [disabled] [ref=e25]
+    - generic [ref=e26]: ⚡ Powered by Sunday Natural

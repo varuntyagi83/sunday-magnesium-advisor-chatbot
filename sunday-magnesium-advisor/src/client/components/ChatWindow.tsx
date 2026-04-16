@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useChat, RecommendedProduct } from "../hooks/useChat.js";
 import { MessageBubble } from "./MessageBubble.js";
 import { PipelineTracker } from "./PipelineTracker.js";
@@ -83,18 +83,10 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
     }).catch(() => {});
   };
 
-  // Opens a URL in a new tab reliably from within the Shadow DOM IIFE context.
-  const openUrl = (url: string) => {
-    const a = document.createElement("a");
-    a.href = url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
-  const downloadTranscript = () => {
+  // Pre-compute the transcript blob URL so the menu item can be a real <a download> element.
+  // A real anchor click is always a trusted user gesture; programmatic .click() is not.
+  const transcriptBlobUrl = useMemo(() => {
+    if (messages.length === 0) return "";
     const lines = messages.map((m) => {
       const role = m.role === "user"
         ? (locale === "de" ? "Sie" : "You")
@@ -103,16 +95,16 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
       return `[${time}] ${role}:\n${m.content}`;
     });
     const blob = new Blob([lines.join("\n\n")], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `sunday-natural-chat-${new Date().toISOString().slice(0, 10)}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setMenuOpen(false);
-  };
+    return URL.createObjectURL(blob);
+  }, [messages, locale]);
+
+  // Revoke the previous blob URL when a new one is generated to avoid memory leaks.
+  const prevTranscriptUrl = useRef("");
+  useEffect(() => {
+    const prev = prevTranscriptUrl.current;
+    prevTranscriptUrl.current = transcriptBlobUrl;
+    return () => { if (prev) URL.revokeObjectURL(prev); };
+  }, [transcriptBlobUrl]);
 
   const lastMsg = messages[messages.length - 1];
   const showRefinement = !loading && !hasRefined && lastMsg?.role === "assistant" && (lastMsg.products?.length ?? 0) > 0;
@@ -239,47 +231,72 @@ export function ChatWindow({ apiUrl = "", onClose, onReset }: ChatWindowProps) {
                 overflow: "hidden",
                 animation: "fadeUp 0.15s ease",
               }}>
-                {[
-                  {
-                    icon: "⬇", label: t.menu.transcript,
-                    action: downloadTranscript,
-                    disabled: messages.length === 0,
-                  },
-                  {
-                    icon: "🔒", label: t.menu.privacy,
-                    action: () => { openUrl("https://www.sunday.de/en/privacy-policy.html"); setMenuOpen(false); },
-                    disabled: false,
-                  },
-                  {
-                    icon: "✕", label: t.menu.endChat,
-                    action: () => { setMenuOpen(false); handleReset(); },
-                    disabled: false,
-                    danger: true,
-                  },
-                ].map(({ icon, label, action, disabled, danger }) => (
-                  <button
-                    key={label}
-                    onClick={action}
-                    disabled={disabled}
-                    style={{
-                      width: "100%", textAlign: "left",
-                      background: "none", border: "none",
-                      padding: "11px 16px",
-                      fontSize: 13, fontFamily: "Newsreader, serif",
-                      color: disabled ? "var(--stone)" : danger ? "#c0392b" : "var(--bark)",
-                      cursor: disabled ? "default" : "pointer",
-                      display: "flex", alignItems: "center", gap: 10,
-                      borderBottom: "1px solid var(--border)",
-                      opacity: disabled ? 0.45 : 1,
-                      transition: "background 0.1s",
-                    }}
-                    onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLButtonElement).style.background = "var(--warm)"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "none"; }}
-                  >
-                    <span style={{ fontSize: 14, width: 18, textAlign: "center" }}>{icon}</span>
-                    {label}
-                  </button>
-                ))}
+                {/* Transcript download — real <a download> so click is a trusted gesture */}
+                <a
+                  href={transcriptBlobUrl || undefined}
+                  download={`sunday-natural-chat-${new Date().toISOString().slice(0, 10)}.txt`}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 10,
+                    padding: "11px 16px",
+                    fontSize: 13, fontFamily: "Newsreader, serif",
+                    color: messages.length === 0 ? "var(--stone)" : "var(--bark)",
+                    textDecoration: "none",
+                    borderBottom: "1px solid var(--border)",
+                    opacity: messages.length === 0 ? 0.45 : 1,
+                    pointerEvents: messages.length === 0 ? "none" : "auto",
+                    transition: "background 0.1s",
+                    cursor: messages.length === 0 ? "default" : "pointer",
+                  }}
+                  onMouseEnter={(e) => { if (messages.length > 0) (e.currentTarget as HTMLAnchorElement).style.background = "var(--warm)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "none"; }}
+                >
+                  <span style={{ fontSize: 14, width: 18, textAlign: "center" }}>⬇</span>
+                  {t.menu.transcript}
+                </a>
+
+                {/* Privacy policy — real <a target="_blank"> so browser opens it natively */}
+                <a
+                  href="https://www.sunday.de/en/privacy-policy.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 10,
+                    padding: "11px 16px",
+                    fontSize: 13, fontFamily: "Newsreader, serif",
+                    color: "var(--bark)",
+                    textDecoration: "none",
+                    borderBottom: "1px solid var(--border)",
+                    transition: "background 0.1s",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "var(--warm)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "none"; }}
+                >
+                  <span style={{ fontSize: 14, width: 18, textAlign: "center" }}>🔒</span>
+                  {t.menu.privacy}
+                </a>
+
+                {/* End chat — still a button, no navigation needed */}
+                <button
+                  onClick={() => { setMenuOpen(false); handleReset(); }}
+                  style={{
+                    width: "100%", textAlign: "left",
+                    background: "none", border: "none",
+                    padding: "11px 16px",
+                    fontSize: 13, fontFamily: "Newsreader, serif",
+                    color: "#c0392b",
+                    cursor: "pointer",
+                    display: "flex", alignItems: "center", gap: 10,
+                    transition: "background 0.1s",
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "var(--warm)"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "none"; }}
+                >
+                  <span style={{ fontSize: 14, width: 18, textAlign: "center" }}>✕</span>
+                  {t.menu.endChat}
+                </button>
               </div>
             )}
           </div>

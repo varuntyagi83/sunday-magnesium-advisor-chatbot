@@ -1,0 +1,29 @@
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - paragraph [ref=e6]: Before we begin
+    - paragraph [ref=e7]:
+      - text: This advisor uses AI to personalise magnesium recommendations based on your health goals. Your conversation is processed by Google Gemini and our product database. No data is shared with third parties. See our
+      - link "Privacy Policy" [ref=e8] [cursor=pointer]:
+        - /url: https://www.sunday.de/en/privacy-policy.html
+      - text: .
+    - generic [ref=e9]:
+      - button "Accept and continue" [ref=e10] [cursor=pointer]
+      - button "No thanks" [ref=e11] [cursor=pointer]
+  - generic [ref=e12]:
+    - generic [ref=e13]:
+      - img "Sunday Natural" [ref=e15]
+      - generic [ref=e16]: Sunday Natural
+    - button "↺" [ref=e18] [cursor=pointer]
+  - generic [ref=e20]:
+    - paragraph [ref=e23]: Hello 👋 I am your Sunday Natural Advisor. I can help you discover the best magnesium for you! 🌿
+    - paragraph [ref=e24]: "Try one of these:"
+    - generic [ref=e25]:
+      - button "Magnesium for stress and anxiety" [ref=e26] [cursor=pointer]
+      - button "I need magnesium for better sleep" [ref=e27] [cursor=pointer]
+      - button "What magnesium is best for muscle relaxation?" [ref=e28] [cursor=pointer]
+      - button "Best general magnesium supplement" [ref=e29] [cursor=pointer]
+  - generic [ref=e30]:
+    - generic [ref=e31]:
+      - textbox "Ask me about magnesium..." [ref=e32]
+      - button "›" [disabled] [ref=e33]
+    - generic [ref=e34]: ⚡ Powered by Sunday Natural

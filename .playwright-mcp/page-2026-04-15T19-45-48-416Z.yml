@@ -1,0 +1,70 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Sunday Natural" [ref=e7]
+      - generic [ref=e8]: Sunday Natural
+    - button "↺" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e69]:
+      - generic [ref=e70]: What magnesium is best for muscle relaxation?
+      - generic [ref=e71]: Delivered
+    - generic [ref=e78]:
+      - img "Sunday Natural" [ref=e80]
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - text: It's wonderful you're exploring magnesium for muscle relaxation; it truly is a fantastic mineral for supporting normal muscle function. Based on your goal, I'd suggest Magnesium Taurate, as it's particularly well suited for muscle and heart tissue. This form combines magnesium with the amino acid taurine, which works synergistically to support healthy muscle function and relaxation. A great option for you would be our
+          - link "Magnesiumtaurat Pure" [ref=e83] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesiumtaurat-kapseln.html
+          - text: . You could take 150mg with lunch and another 150mg before bed for a total of 300mg daily. This approach helps ensure consistent support for your muscles throughout the day and into the evening. Remember, magnesium plays a vital role in how your muscles relax and function. I hope this helps you find the perfect support for your muscles! Please feel free to ask if you have any more questions.
+          - button "► Learn more about this form" [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: ►
+            - text: Learn more about this form
+        - generic [ref=e87]:
+          - generic [ref=e88]: "Here are some products that could be a great fit for you:"
+          - generic [ref=e89]:
+            - button "‹" [ref=e90] [cursor=pointer]
+            - generic [ref=e91]:
+              - generic [ref=e92]:
+                - img "Magnesium Active Calm" [ref=e93]
+                - generic [ref=e94]:
+                  - link "Magnesium Active Calm" [ref=e95] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-active-calm-komplex-kapseln.html
+                  - generic [ref=e96]:
+                    - text: €24.90
+                    - generic [ref=e97]: "| Capsules · 90 Kapseln"
+                  - link "See More" [ref=e98] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-active-calm-komplex-kapseln.html
+              - generic [ref=e99]:
+                - paragraph [ref=e100]:
+                  - strong [ref=e101]: "Why this is a great fit:"
+                  - text: This product combines Magnesium L-Threonat and Magnesium Acetyltaurat to provide a synergistic effect for the nervous system. It is specifically formulated to support mental relaxation and calm, which indirectly helps in reducing physical tension. This makes it an excellent choice for those looking to soothe both the mind and body simultaneously.
+                - generic [ref=e102]:
+                  - strong [ref=e103]: "Note:"
+                  - text: Do not exceed the recommended daily dosage. Consult a healthcare professional if you are pregnant, nursing, or taking medication.
+            - button "›" [ref=e104] [cursor=pointer]
+          - generic [ref=e105]:
+            - button [ref=e106] [cursor=pointer]
+            - button [ref=e107] [cursor=pointer]
+            - button [ref=e108] [cursor=pointer]
+        - button "► Performance Metrics" [ref=e110] [cursor=pointer]:
+          - generic [ref=e111]: ►
+          - text: Performance Metrics
+        - generic [ref=e112]:
+          - button "How much should I take for muscle relaxation?" [ref=e113] [cursor=pointer]
+          - button "What's the difference between taurate and bisglycinate?" [ref=e114] [cursor=pointer]
+          - button "Are there other ways to improve muscle relaxation?" [ref=e115] [cursor=pointer]
+  - generic [ref=e116]:
+    - paragraph [ref=e117]: Are these a good fit — or do you have special preferences?
+    - paragraph [ref=e118]: Product Form
+    - generic [ref=e119]:
+      - button "💊 Capsule" [ref=e120] [cursor=pointer]
+      - button "🔵 Tablet" [ref=e121] [cursor=pointer]
+      - button "🥄 Powder" [ref=e122] [cursor=pointer]
+      - button "💧 Liquid" [ref=e123] [cursor=pointer]
+      - button "🍬 Gummy" [ref=e124] [cursor=pointer]
+    - textbox "e.g. high dose, vegan, powder only..." [ref=e125]
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - textbox "Ask me about magnesium..." [ref=e24]
+      - button "›" [disabled] [ref=e25]
+    - generic [ref=e26]: ⚡ Powered by Sunday Natural

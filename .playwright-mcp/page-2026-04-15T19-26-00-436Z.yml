@@ -1,0 +1,72 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Sunday Natural" [ref=e7]
+      - generic [ref=e8]: Sunday Natural
+    - button "↺" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e69]:
+      - generic [ref=e70]: I need magnesium for better sleep
+      - generic [ref=e71]: Delivered
+    - generic [ref=e78]:
+      - img "Sunday Natural" [ref=e80]
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - text: It's wonderful you're looking to magnesium for better sleep; it's truly a mineral that can make a difference in helping you unwind. Magnesium bisglycinate is often called the "nervous system magnesium" because it's fantastic for supporting normal psychological function and a calm nervous system, which is exactly what you need to prepare for a restful night. It's gentle on your system and highly bioavailable, meaning your body can use it effectively. For sleep support, I’d suggest our
+          - link "Magnesium Glycinat Pure" [ref=e83] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - text: . It’s an excellent choice to help soothe your nervous system and support mental well being before bed. If you’re looking for a more comprehensive approach, our
+          - link "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e84] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-sleep-1mg.html
+          - text: combines magnesium with melatonin and hop extract for targeted sleep support, helping you fall asleep faster and stay asleep. Magnesium contributes to normal muscle function and can help reduce tiredness and fatigue, which are both essential for good sleep. Always feel free to ask if you have any more questions!
+          - button "► Learn more about this form" [ref=e86] [cursor=pointer]:
+            - generic [ref=e87]: ►
+            - text: Learn more about this form
+        - generic [ref=e88]:
+          - generic [ref=e89]: "Here are some products that could be a great fit for you:"
+          - generic [ref=e90]:
+            - button "‹" [ref=e91] [cursor=pointer]
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - img "Magnesium Glycinat Pure" [ref=e94]
+                - generic [ref=e95]:
+                  - link "Magnesium Glycinat Pure" [ref=e96] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+                  - generic [ref=e97]:
+                    - text: €10.90
+                    - generic [ref=e98]: "| Capsules · 120 Kapseln"
+                  - link "See More" [ref=e99] [cursor=pointer]:
+                    - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+              - generic [ref=e100]:
+                - paragraph [ref=e101]:
+                  - strong [ref=e102]: "Why this is a great fit:"
+                  - text: Magnesium bisglycinate is highly bioavailable and is specifically known for its calming properties, making it an excellent choice for supporting relaxation before sleep. This pure formulation provides a gentle dose that helps soothe the nervous system and support mental well-being. It is an ideal option for those looking for a clean, targeted supplement to help them unwind at the end of the day.
+                - generic [ref=e103]:
+                  - strong [ref=e104]: "Note:"
+                  - text: Do not exceed the recommended daily intake. Consult a healthcare professional if you are pregnant, nursing, or taking medication.
+            - button "›" [ref=e105] [cursor=pointer]
+          - generic [ref=e106]:
+            - button [ref=e107] [cursor=pointer]
+            - button [ref=e108] [cursor=pointer]
+        - button "► Performance Metrics" [ref=e110] [cursor=pointer]:
+          - generic [ref=e111]: ►
+          - text: Performance Metrics
+        - generic [ref=e112]:
+          - button "What's the best time to take it for sleep?" [ref=e113] [cursor=pointer]
+          - button "How does glycinate help with sleep?" [ref=e114] [cursor=pointer]
+          - button "Can I take it with other sleep supplements?" [ref=e115] [cursor=pointer]
+  - generic [ref=e116]:
+    - paragraph [ref=e117]: Are these a good fit — or do you have special preferences?
+    - paragraph [ref=e118]: Product Form
+    - generic [ref=e119]:
+      - button "💊 Capsule" [ref=e120] [cursor=pointer]
+      - button "🔵 Tablet" [ref=e121] [cursor=pointer]
+      - button "🥄 Powder" [ref=e122] [cursor=pointer]
+      - button "💧 Liquid" [ref=e123] [cursor=pointer]
+      - button "🍬 Gummy" [ref=e124] [cursor=pointer]
+    - textbox "e.g. high dose, vegan, powder only..." [ref=e125]
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - textbox "Ask me about magnesium..." [ref=e24]
+      - button "›" [disabled] [ref=e25]
+    - generic [ref=e26]: ⚡ Powered by Sunday Natural

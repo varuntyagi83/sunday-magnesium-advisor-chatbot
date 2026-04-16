@@ -1,0 +1,25 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: 🌿 Sunday Natural
+  - generic [ref=e4]:
+    - heading "Magnesium Supplements" [level=1] [ref=e5]
+    - paragraph [ref=e6]: High-quality magnesium in every form — glycinate, malate, citrate, and more. Find the right one for your needs.
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - heading "Magnesium Glycinate Pure" [level=3] [ref=e9]
+      - paragraph [ref=e10]: Highly bioavailable, ideal for sleep and relaxation.
+      - generic [ref=e11]: EUR 10.90
+    - generic [ref=e12]:
+      - heading "Magnesium Malate" [level=3] [ref=e13]
+      - paragraph [ref=e14]: Supports energy metabolism and muscle function.
+      - generic [ref=e15]: EUR 12.90
+    - generic [ref=e16]:
+      - heading "Magnesium Citrate" [level=3] [ref=e17]
+      - paragraph [ref=e18]: Gentle on digestion, good all-round choice.
+      - generic [ref=e19]: EUR 9.90
+    - generic [ref=e20]:
+      - heading "Magnesium Complex" [level=3] [ref=e21]
+      - paragraph [ref=e22]: Blend of 4 forms for comprehensive support.
+      - generic [ref=e23]: EUR 14.90
+  - contentinfo [ref=e24]: © 2024 Sunday Natural GmbH • Impressum • Datenschutz
+  - button "🌿" [ref=e26] [cursor=pointer]

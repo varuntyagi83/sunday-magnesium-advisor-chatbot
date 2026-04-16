@@ -1,0 +1,81 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: 🌿
+      - generic [ref=e7]:
+        - generic [ref=e8]: Magnesium Advisor
+        - generic [ref=e9]: Sunday Natural
+    - button "Debug" [ref=e10] [cursor=pointer]
+  - generic [ref=e11]:
+    - generic [ref=e69]: I have trouble falling asleep and staying asleep
+    - generic [ref=e76]:
+      - generic [ref=e77]: 🌿
+      - generic [ref=e78]:
+        - generic [ref=e79]: Sunday Natural Advisor
+        - generic [ref=e80]:
+          - text: It sounds like you're looking for support with your sleep, and magnesium can certainly be a wonderful ally. Magnesium contributes to the normal function of your nervous system and can help reduce tiredness, which in turn can bring a sense of balance. Many find that maintaining healthy magnesium levels is essential for overall well being, especially when sleep is elusive. For your specific needs, I would suggest our
+          - link "Magnesium Glycinat Pure" [ref=e81] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - text: . Magnesium glycinate is a highly bioavailable and gentle form, making it excellent for promoting relaxation and calming the mind before bed. You could take around 100mg with dinner and then 200mg before bed to really embrace its calming effects. Another excellent option, specifically formulated for evening support, is our
+          - link "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e82] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-sleep-1mg.html
+          - text: . This complex combines magnesium with melatonin and herbal extracts, designed to help both with falling asleep and staying asleep through the night. Magnesium can truly support relaxation and contribute to a good night's rest. Please feel free to ask if you have any more questions!
+        - generic [ref=e83]:
+          - generic [ref=e84]:
+            - img "Magnesium Glycinat Pure" [ref=e85]
+            - generic [ref=e86]: glycinate
+            - generic [ref=e87]: Magnesium Glycinat Pure
+            - generic [ref=e88]: 75mg · EUR 10.90
+            - generic [ref=e89]: Magnesium glycinate is highly bioavailable and well-tolerated, making it an excellent choice for supporting the nervous system and promoting relaxation. By helping to calm the mind and body, it can assist in creating the physiological conditions necessary for falling asleep more easily. This pure formulation provides a gentle, effective dose to support your nightly routine without unnecessary additives.
+            - generic [ref=e93]: 100% match
+            - link "View Product" [ref=e94] [cursor=pointer]:
+              - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - generic [ref=e95]:
+            - img "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e96]
+            - generic [ref=e97]: glycinate
+            - generic [ref=e98]: Melatonin Duo Plus Magnesiumglycinat Depot
+            - generic [ref=e99]: 0mg · EUR 9.90
+            - generic [ref=e100]: This complex is specifically designed for sleep support by combining magnesium with melatonin and herbal extracts like hops. The 'depot' formulation ensures a sustained release, which is particularly beneficial for those who struggle with staying asleep throughout the night. It addresses both the onset of sleep and the maintenance of a restful sleep cycle.
+            - generic [ref=e104]: 85% match
+            - link "View Product" [ref=e105] [cursor=pointer]:
+              - /url: https://www.sunday.de/magnesium-sleep-1mg.html
+    - generic [ref=e153]: What's the best time to take magnesium for sleep?
+    - generic [ref=e160]:
+      - generic [ref=e161]: 🌿
+      - generic [ref=e162]:
+        - generic [ref=e163]: Sunday Natural Advisor
+        - generic [ref=e164]:
+          - text: That's a wonderful question, and you're right to think about timing for optimal sleep support! While magnesium can be taken at any time, many people find it most pleasant and effective to take it in the evening, typically 30 to 60 minutes before bedtime. This timing allows the magnesium to gently support your nervous system and muscle function as you wind down, helping to create a sense of calm that's conducive to sleep. Given your goal of improving sleep, our
+          - link "Magnesium Glycinat Pure" [ref=e165] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - text: is an excellent choice for your evening routine. Magnesium glycinate is a highly absorbable and gentle form, making it perfect for promoting relaxation before bed. Another fantastic option, especially if you're looking for comprehensive sleep support, is our
+          - link "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e166] [cursor=pointer]:
+            - /url: https://www.sunday.de/magnesium-sleep-1mg.html
+          - text: . This complex combines magnesium with melatonin and herbal extracts, designed to help both with falling asleep and staying asleep through the night. Always remember to listen to your body and adjust the timing as needed to find what feels best for you. Please let me know if you have any more questions!
+        - generic [ref=e167]:
+          - generic [ref=e168]:
+            - img "Magnesium Glycinat Pure" [ref=e169]
+            - generic [ref=e170]: glycinate
+            - generic [ref=e171]: Magnesium Glycinat Pure
+            - generic [ref=e172]: 75mg · EUR 10.90
+            - generic [ref=e173]: Magnesium Glycinate is highly regarded for its calming properties, making it an excellent choice for evening supplementation to support relaxation. This pure form is well-tolerated and helps soothe the nervous system before bedtime. It is an ideal option for those looking for a gentle, high-quality magnesium source to improve sleep quality.
+            - generic [ref=e177]: 100% match
+            - link "View Product" [ref=e178] [cursor=pointer]:
+              - /url: https://www.sunday.de/magnesium-glycinat-pur-kapseln.html
+          - generic [ref=e179]:
+            - img "Melatonin Duo Plus Magnesiumglycinat Depot" [ref=e180]
+            - generic [ref=e181]: glycinate
+            - generic [ref=e182]: Melatonin Duo Plus Magnesiumglycinat Depot
+            - generic [ref=e183]: 0mg · EUR 9.90
+            - generic [ref=e184]: This complex combines magnesium with melatonin and hop extract, specifically formulated to support falling asleep and maintaining a restful state throughout the night. The depot technology ensures a sustained release of nutrients, which is beneficial for those who struggle with sleep continuity. It is a targeted solution for individuals seeking a synergistic blend for better sleep hygiene.
+            - generic [ref=e188]: 85% match
+            - link "View Product" [ref=e189] [cursor=pointer]:
+              - /url: https://www.sunday.de/magnesium-sleep-1mg.html
+        - generic [ref=e190]:
+          - button "How much magnesium glycinate should I take?" [ref=e191] [cursor=pointer]
+          - button "Can I take it with other supplements?" [ref=e192] [cursor=pointer]
+          - button "What if I forget to take it before bed?" [ref=e193] [cursor=pointer]
+  - generic [ref=e22]:
+    - textbox "Describe your health goals or symptoms..." [ref=e23]
+    - button "↑" [disabled] [ref=e24]
+  - generic [ref=e25]: This advisor uses AI for informational purposes only. Always consult a healthcare professional before starting supplements.

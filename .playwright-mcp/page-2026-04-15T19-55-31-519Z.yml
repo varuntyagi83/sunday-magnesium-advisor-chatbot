@@ -1,0 +1,19 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Sunday Natural" [ref=e7]
+      - generic [ref=e8]: Sunday Natural
+    - button "↺" [ref=e10] [cursor=pointer]
+  - generic [ref=e12]:
+    - paragraph [ref=e15]: Hello 👋 I am your Sunday Natural Advisor. I can help you discover the best magnesium for you! 🌿
+    - paragraph [ref=e16]: "Try one of these:"
+    - generic [ref=e17]:
+      - button "Magnesium for stress and anxiety" [ref=e18] [cursor=pointer]
+      - button "I need magnesium for better sleep" [ref=e19] [cursor=pointer]
+      - button "What magnesium is best for muscle relaxation?" [ref=e20] [cursor=pointer]
+      - button "Best general magnesium supplement" [ref=e21] [cursor=pointer]
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - textbox "Ask me about magnesium..." [ref=e24]
+      - button "›" [disabled] [ref=e25]
+    - generic [ref=e26]: ⚡ Powered by Sunday Natural
