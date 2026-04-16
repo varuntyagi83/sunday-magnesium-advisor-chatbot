@@ -3,3 +3,9 @@ dist/
 .env
 *.local
 .DS_Store
+.playwright-mcp/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
