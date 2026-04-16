@@ -15,18 +15,31 @@ interface Props {
 }
 
 function renderContent(text: string) {
-  const parts = text.split(/(\[.+?\]\(.+?\))/g);
-  return parts.map((part, i) => {
-    const match = part.match(/^\[(.+?)\]\((.+?)\)$/);
-    if (match) {
-      return (
-        <a key={i} href={match[2]} target="_blank" rel="noopener noreferrer"
-          style={{ color: "var(--gold-dark)", textDecoration: "underline" }}>
-          {match[1]}
-        </a>
+  // Split into paragraphs on double newlines, then process markdown links inline.
+  return text.split(/\n\n+/).map((paragraph, pIdx) => {
+    const parts = paragraph.split(/(\[.+?\]\(.+?\))/g);
+    const inline = parts.flatMap((part, i) => {
+      const match = part.match(/^\[(.+?)\]\((.+?)\)$/);
+      if (match) {
+        return [
+          <a key={`${pIdx}-${i}`} href={match[2]} target="_blank" rel="noopener noreferrer"
+            style={{ color: "var(--gold-dark)", textDecoration: "underline" }}>
+            {match[1]}
+          </a>
+        ];
+      }
+      // Handle single newlines within a paragraph as <br>
+      return part.split("\n").flatMap((line, li, arr) =>
+        li < arr.length - 1
+          ? [<span key={`${pIdx}-${i}-${li}`}>{line}</span>, <br key={`${pIdx}-${i}-${li}-br`} />]
+          : [<span key={`${pIdx}-${i}-${li}`}>{line}</span>]
       );
-    }
-    return <span key={i}>{part}</span>;
+    });
+    return (
+      <p key={pIdx} style={{ margin: pIdx === 0 ? 0 : "10px 0 0", padding: 0 }}>
+        {inline}
+      </p>
+    );
   });
 }
 
